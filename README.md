@@ -9,4 +9,4 @@
 - Все сохраняется локально на вашем устройстве, никаких бэкендов и лишних заморочек.
 
 Ссылка на приложение:
-https://starlit-travesseiro-e4c0ac.netlify.app/
+https://job-search-helper.netlify.app/
