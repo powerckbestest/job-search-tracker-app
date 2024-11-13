@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { PlusCircle, Briefcase } from 'lucide-react';
-import { Employer, Interview } from './types';
-import EmployerCard from './components/EmployerCard';
+import React, { useState, useEffect } from "react";
+import { PlusCircle, Briefcase } from "lucide-react";
+import { Employer, Interview } from "./types";
+import EmployerCard from "./components/EmployerCard";
 
 function App() {
   const [employers, setEmployers] = useState<Employer[]>(() => {
-    const saved = localStorage.getItem('jobSearchEmployers');
+    const saved = localStorage.getItem("jobSearchEmployers");
     return saved ? JSON.parse(saved) : [];
   });
-  
+
   const [isAdding, setIsAdding] = useState(false);
   const [newEmployer, setNewEmployer] = useState({
-    companyName: '',
-    description: '',
-    hrName: '',
-    contacts: '',
+    companyName: "",
+    description: "",
+    hrName: "",
+    contacts: "",
   });
 
   useEffect(() => {
-    localStorage.setItem('jobSearchEmployers', JSON.stringify(employers));
+    localStorage.setItem("jobSearchEmployers", JSON.stringify(employers));
   }, [employers]);
 
   const handleAddEmployer = (e: React.FormEvent) => {
@@ -31,39 +31,55 @@ function App() {
     };
     setEmployers([employer, ...employers]);
     setIsAdding(false);
-    setNewEmployer({ companyName: '', description: '', hrName: '', contacts: '' });
+    setNewEmployer({
+      companyName: "",
+      description: "",
+      hrName: "",
+      contacts: "",
+    });
   };
 
   const handleAddInterview = (employerId: string, interview: Interview) => {
-    setEmployers(employers.map(emp => 
-      emp.id === employerId 
-        ? { ...emp, interviews: [...emp.interviews, interview] }
-        : emp
-    ));
+    setEmployers(
+      employers.map((emp) =>
+        emp.id === employerId
+          ? { ...emp, interviews: [...emp.interviews, interview] }
+          : emp
+      )
+    );
   };
 
-  const handleUpdateInterview = (employerId: string, updatedInterview: Interview) => {
-    setEmployers(employers.map(emp => 
-      emp.id === employerId 
-        ? {
-            ...emp,
-            interviews: emp.interviews.map(interview =>
-              interview.id === updatedInterview.id ? updatedInterview : interview
-            )
-          }
-        : emp
-    ));
+  const handleUpdateInterview = (
+    employerId: string,
+    updatedInterview: Interview
+  ) => {
+    setEmployers(
+      employers.map((emp) =>
+        emp.id === employerId
+          ? {
+              ...emp,
+              interviews: emp.interviews.map((interview) =>
+                interview.id === updatedInterview.id
+                  ? updatedInterview
+                  : interview
+              ),
+            }
+          : emp
+      )
+    );
   };
 
   const handleUpdateEmployer = (updatedEmployer: Employer) => {
-    setEmployers(employers.map(emp => 
-      emp.id === updatedEmployer.id ? updatedEmployer : emp
-    ));
+    setEmployers(
+      employers.map((emp) =>
+        emp.id === updatedEmployer.id ? updatedEmployer : emp
+      )
+    );
   };
 
   const handleDeleteEmployer = (id: string) => {
-    if (window.confirm('Вы уверены, что хотите удалить этого работодателя?')) {
-      setEmployers(employers.filter(emp => emp.id !== id));
+    if (window.confirm("Вы уверены, что хотите удалить этого работодателя?")) {
+      setEmployers(employers.filter((emp) => emp.id !== id));
     }
   };
 
@@ -96,7 +112,12 @@ function App() {
                 <input
                   type="text"
                   value={newEmployer.companyName}
-                  onChange={(e) => setNewEmployer({ ...newEmployer, companyName: e.target.value })}
+                  onChange={(e) =>
+                    setNewEmployer({
+                      ...newEmployer,
+                      companyName: e.target.value,
+                    })
+                  }
                   className="w-full px-3 py-2 border rounded-md"
                   required
                 />
@@ -107,7 +128,12 @@ function App() {
                 </label>
                 <textarea
                   value={newEmployer.description}
-                  onChange={(e) => setNewEmployer({ ...newEmployer, description: e.target.value })}
+                  onChange={(e) =>
+                    setNewEmployer({
+                      ...newEmployer,
+                      description: e.target.value,
+                    })
+                  }
                   className="w-full px-3 py-2 border rounded-md"
                   rows={3}
                 />
@@ -119,7 +145,9 @@ function App() {
                 <input
                   type="text"
                   value={newEmployer.hrName}
-                  onChange={(e) => setNewEmployer({ ...newEmployer, hrName: e.target.value })}
+                  onChange={(e) =>
+                    setNewEmployer({ ...newEmployer, hrName: e.target.value })
+                  }
                   className="w-full px-3 py-2 border rounded-md"
                 />
               </div>
@@ -130,7 +158,9 @@ function App() {
                 <input
                   type="text"
                   value={newEmployer.contacts}
-                  onChange={(e) => setNewEmployer({ ...newEmployer, contacts: e.target.value })}
+                  onChange={(e) =>
+                    setNewEmployer({ ...newEmployer, contacts: e.target.value })
+                  }
                   className="w-full px-3 py-2 border rounded-md"
                   placeholder="Email, телефон, etc."
                 />
@@ -165,7 +195,7 @@ function App() {
               onUpdateInterview={handleUpdateInterview}
             />
           ))}
-          
+
           {employers.length === 0 && !isAdding && (
             <div className="text-center py-12">
               <p className="text-gray-500">Нет добавленных работодателей</p>

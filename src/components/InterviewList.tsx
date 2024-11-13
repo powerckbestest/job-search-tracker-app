@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { CalendarDays, Plus, Edit2, Save, X } from 'lucide-react';
-import { Interview } from '../types';
+import React, { useState } from "react";
+import { CalendarDays, Plus, Edit2, Save, X } from "lucide-react";
+import { Interview } from "../types";
 
 interface Props {
   interviews: Interview[];
@@ -9,14 +9,21 @@ interface Props {
   onUpdateInterview: (employerId: string, interview: Interview) => void;
 }
 
-export default function InterviewList({ interviews, employerId, onAddInterview, onUpdateInterview }: Props) {
+export default function InterviewList({
+  interviews,
+  employerId,
+  onAddInterview,
+  onUpdateInterview,
+}: Props) {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingInterview, setEditingInterview] = useState<Interview | null>(null);
+  const [editingInterview, setEditingInterview] = useState<Interview | null>(
+    null
+  );
   const [newInterview, setNewInterview] = useState({
-    date: '',
-    notes: '',
-    status: 'pending' as const,
+    date: "",
+    notes: "",
+    status: "pending" as const,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -26,7 +33,7 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
       id: Date.now().toString(),
     });
     setIsAdding(false);
-    setNewInterview({ date: '', notes: '', status: 'pending' });
+    setNewInterview({ date: "", notes: "", status: "pending" });
   };
 
   const handleEdit = (interview: Interview) => {
@@ -47,21 +54,29 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
     setEditingInterview(null);
   };
 
-  const getStatusColor = (status: Interview['status']) => {
+  const getStatusColor = (status: Interview["status"]) => {
     switch (status) {
-      case 'completed': return 'text-yellow-600 bg-yellow-50';
-      case 'accepted': return 'text-green-600 bg-green-50';
-      case 'rejected': return 'text-red-600 bg-red-50';
-      default: return 'text-blue-600 bg-blue-50';
+      case "completed":
+        return "text-yellow-600 bg-yellow-50";
+      case "accepted":
+        return "text-green-600 bg-green-50";
+      case "rejected":
+        return "text-red-600 bg-red-50";
+      default:
+        return "text-blue-600 bg-blue-50";
     }
   };
 
-  const getStatusText = (status: Interview['status']) => {
+  const getStatusText = (status: Interview["status"]) => {
     switch (status) {
-      case 'pending': return 'В ожидании';
-      case 'completed': return 'Завершено';
-      case 'accepted': return 'Принят';
-      case 'rejected': return 'Отказ';
+      case "pending":
+        return "В ожидании";
+      case "completed":
+        return "Завершено";
+      case "accepted":
+        return "Принят";
+      case "rejected":
+        return "Отказ";
     }
   };
 
@@ -79,12 +94,17 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
       </div>
 
       {isAdding && (
-        <form onSubmit={handleSubmit} className="space-y-3 p-3 bg-gray-50 rounded-md">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-3 p-3 bg-gray-50 rounded-md"
+        >
           <div>
             <input
               type="datetime-local"
               value={newInterview.date}
-              onChange={(e) => setNewInterview({ ...newInterview, date: e.target.value })}
+              onChange={(e) =>
+                setNewInterview({ ...newInterview, date: e.target.value })
+              }
               className="w-full px-3 py-2 border rounded-md"
               required
             />
@@ -92,7 +112,9 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
           <div>
             <textarea
               value={newInterview.notes}
-              onChange={(e) => setNewInterview({ ...newInterview, notes: e.target.value })}
+              onChange={(e) =>
+                setNewInterview({ ...newInterview, notes: e.target.value })
+              }
               placeholder="Заметки о собеседовании, результаты, впечатления..."
               className="w-full px-3 py-2 border rounded-md"
               rows={3}
@@ -101,7 +123,12 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
           <div>
             <select
               value={newInterview.status}
-              onChange={(e) => setNewInterview({ ...newInterview, status: e.target.value as Interview['status'] })}
+              onChange={(e) =>
+                setNewInterview({
+                  ...newInterview,
+                  status: e.target.value as Interview["status"],
+                })
+              }
               className="w-full px-3 py-2 border rounded-md"
             >
               <option value="pending">В ожидании</option>
@@ -137,15 +164,22 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
                   <input
                     type="datetime-local"
                     value={editingInterview.date}
-                    onChange={(e) => setEditingInterview({ ...editingInterview, date: e.target.value })}
+                    onChange={(e) =>
+                      setEditingInterview({
+                        ...editingInterview,
+                        date: e.target.value,
+                      })
+                    }
                     className="flex-1 px-3 py-2 border rounded-md text-sm"
                   />
                   <select
                     value={editingInterview.status}
-                    onChange={(e) => setEditingInterview({ 
-                      ...editingInterview, 
-                      status: e.target.value as Interview['status'] 
-                    })}
+                    onChange={(e) =>
+                      setEditingInterview({
+                        ...editingInterview,
+                        status: e.target.value as Interview["status"],
+                      })
+                    }
                     className="px-3 py-2 border rounded-md text-sm"
                   >
                     <option value="pending">В ожидании</option>
@@ -156,7 +190,12 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
                 </div>
                 <textarea
                   value={editingInterview.notes}
-                  onChange={(e) => setEditingInterview({ ...editingInterview, notes: e.target.value })}
+                  onChange={(e) =>
+                    setEditingInterview({
+                      ...editingInterview,
+                      notes: e.target.value,
+                    })
+                  }
                   className="w-full px-3 py-2 border rounded-md text-sm"
                   rows={4}
                   placeholder="Заметки о собеседовании, результаты, впечатления..."
@@ -184,11 +223,15 @@ export default function InterviewList({ interviews, employerId, onAddInterview, 
                   <div className="flex items-center gap-2">
                     <CalendarDays className="text-gray-400" size={16} />
                     <span className="text-sm text-gray-600">
-                      {new Date(interview.date).toLocaleString('ru-RU')}
+                      {new Date(interview.date).toLocaleString("ru-RU")}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(interview.status)}`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full ${getStatusColor(
+                        interview.status
+                      )}`}
+                    >
                       {getStatusText(interview.status)}
                     </span>
                     <button
