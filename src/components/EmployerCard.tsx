@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Building2,
   ChevronDown,
@@ -10,12 +10,15 @@ import {
 import { Employer, Interview } from "../types";
 import InterviewList from "./InterviewList";
 
+
+
 interface Props {
   employer: Employer;
   onAddInterview: (employerId: string, interview: Interview) => void;
   onUpdateEmployer: (employer: Employer) => void;
   onDeleteEmployer: (id: string) => void;
   onUpdateInterview: (employerId: string, interview: Interview) => void;
+  onEditCard: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function EmployerCard({
@@ -23,6 +26,7 @@ export default function EmployerCard({
   onAddInterview,
   onDeleteEmployer,
   onUpdateInterview,
+                                       onEditCard,
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -69,9 +73,18 @@ export default function EmployerCard({
           />
 
           <div className="mt-4 flex justify-end gap-2">
+
             <button
-              onClick={() => onDeleteEmployer(employer.id)}
-              className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                onClick={() => {
+                  onEditCard(employer.id)
+                }}
+                className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+            >
+              Редактировать
+            </button>
+            <button
+                onClick={() => onDeleteEmployer(employer.id)}
+                className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Удалить
             </button>

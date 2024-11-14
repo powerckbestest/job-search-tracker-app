@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { PlusCircle, Briefcase } from "lucide-react";
 import { Employer, Interview } from "./types";
 import EmployerCard from "./components/EmployerCard";
+import {EditEmployerCard} from "./components/EditEmployerCard.tsx";
 import {useLocalStorage} from "usehooks-ts";
 
 function App() {
@@ -11,34 +12,14 @@ function App() {
   const [employers, setEmployers] = useState<Employer[]>(localStorageEmployers);
 
   const [isAdding, setIsAdding] = useState(false);
-  const [newEmployer, setNewEmployer] = useState({
-    companyName: "",
-    description: "",
-    hrName: "",
-    contacts: "",
-  });
+  const [editCardId, setEditCardId] = useState<string | null>(null);
+
 
   useEffect(() => {
     setLocalStorageEmployers(employers);
   }, [employers]);
 
-  const handleAddEmployer = (e: React.FormEvent) => {
-    e.preventDefault();
-    const employer: Employer = {
-      ...newEmployer,
-      id: Date.now().toString(),
-      interviews: [],
-      createdAt: new Date().toISOString(),
-    };
-    setEmployers([employer, ...employers]);
-    setIsAdding(false);
-    setNewEmployer({
-      companyName: "",
-      description: "",
-      hrName: "",
-      contacts: "",
-    });
-  };
+
 
   const handleAddInterview = (employerId: string, interview: Interview) => {
     setEmployers(
@@ -103,99 +84,28 @@ function App() {
           </div>
         </header>
 
-        {isAdding && (
-          <div className="mb-6 bg-white rounded-lg shadow-md p-6">
-            <form onSubmit={handleAddEmployer} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Название компании
-                </label>
-                <input
-                  type="text"
-                  value={newEmployer.companyName}
-                  onChange={(e) =>
-                    setNewEmployer({
-                      ...newEmployer,
-                      companyName: e.target.value,
-                    })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Описание
-                </label>
-                <textarea
-                  value={newEmployer.description}
-                  onChange={(e) =>
-                    setNewEmployer({
-                      ...newEmployer,
-                      description: e.target.value,
-                    })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                  rows={3}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Имя HR
-                </label>
-                <input
-                  type="text"
-                  value={newEmployer.hrName}
-                  onChange={(e) =>
-                    setNewEmployer({ ...newEmployer, hrName: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Контакты
-                </label>
-                <input
-                  type="text"
-                  value={newEmployer.contacts}
-                  onChange={(e) =>
-                    setNewEmployer({ ...newEmployer, contacts: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                  placeholder="Email, телефон, etc."
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsAdding(false)}
-                  className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
-                >
-                  Отмена
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                  Сохранить
-                </button>
-              </div>
-            </form>
-          </div>
+        {(isAdding || editCardId !== null) && (
+            <EditEmployerCard setIsAdding={setIsAdding}  setEmployers={setEmployers} employers={employers} editCardId={editCardId} setEditCardId={setEditCardId}/>
         )}
 
         <div className="space-y-4">
-          {employers.map((employer) => (
-            <EmployerCard
-              key={employer.id}
-              employer={employer}
-              onAddInterview={handleAddInterview}
-              onUpdateEmployer={handleUpdateEmployer}
-              onDeleteEmployer={handleDeleteEmployer}
-              onUpdateInterview={handleUpdateInterview}
-            />
-          ))}
+          {employers.map((employer) => {
+                if (editCardId === employer.id) {
+                  return <></>
+                }
+
+                return (
+                    <EmployerCard
+                        key={employer.id}
+                        employer={employer}
+                        onEditCard={setEditCardId}
+                        onAddInterview={handleAddInterview}
+                        onUpdateEmployer={handleUpdateEmployer}
+                        onDeleteEmployer={handleDeleteEmployer}
+                        onUpdateInterview={handleUpdateInterview}
+                    />)
+              })}
+
 
           {employers.length === 0 && !isAdding && (
             <div className="text-center py-12">
