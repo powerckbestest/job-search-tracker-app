@@ -75,6 +75,7 @@ function App() {
               <h1 className="text-2xl font-bold text-gray-800">Поиск работы</h1>
             </div>
             <button
+                data-testid="addEmployer"
               onClick={() => setIsAdding(true)}
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
