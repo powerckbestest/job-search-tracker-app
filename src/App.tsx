@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { PlusCircle, Briefcase } from "lucide-react";
 import { Employer, Interview } from "./types";
 import EmployerCard from "./components/EmployerCard";
+import {useLocalStorage} from "usehooks-ts";
 
 function App() {
-  const [employers, setEmployers] = useState<Employer[]>(() => {
-    const saved = localStorage.getItem("jobSearchEmployers");
-    return saved ? JSON.parse(saved) : [];
-  });
+
+  const [localStorageEmployers, setLocalStorageEmployers] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
+
+  const [employers, setEmployers] = useState<Employer[]>(localStorageEmployers);
 
   const [isAdding, setIsAdding] = useState(false);
   const [newEmployer, setNewEmployer] = useState({
@@ -18,7 +19,7 @@ function App() {
   });
 
   useEffect(() => {
-    localStorage.setItem("jobSearchEmployers", JSON.stringify(employers));
+    setLocalStorageEmployers(employers);
   }, [employers]);
 
   const handleAddEmployer = (e: React.FormEvent) => {
