@@ -85,6 +85,7 @@ export default function InterviewList({
       <div className="flex items-center justify-between">
         <h4 className="font-medium text-gray-700">Собеседования</h4>
         <button
+            data-testid='addInterview'
           onClick={() => setIsAdding(true)}
           className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
         >
@@ -100,6 +101,7 @@ export default function InterviewList({
         >
           <div>
             <input
+                data-testid="interviewDate"
               type="datetime-local"
               value={newInterview.date}
               onChange={(e) =>
@@ -111,6 +113,7 @@ export default function InterviewList({
           </div>
           <div>
             <textarea
+              data-testid='interviewDescription'
               value={newInterview.notes}
               onChange={(e) =>
                 setNewInterview({ ...newInterview, notes: e.target.value })
@@ -122,6 +125,7 @@ export default function InterviewList({
           </div>
           <div>
             <select
+              data-testid='selectInterviewStatus'
               value={newInterview.status}
               onChange={(e) =>
                 setNewInterview({
@@ -139,6 +143,7 @@ export default function InterviewList({
           </div>
           <div className="flex justify-end gap-2">
             <button
+                data-testid="cancelInterviewEdit"
               type="button"
               onClick={() => setIsAdding(false)}
               className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md"
@@ -146,6 +151,7 @@ export default function InterviewList({
               Отмена
             </button>
             <button
+                data-testid="saveInterviewEdit"
               type="submit"
               className="px-3 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded-md"
             >
