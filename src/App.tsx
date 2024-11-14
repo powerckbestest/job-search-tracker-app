@@ -3,19 +3,20 @@ import { PlusCircle, Briefcase } from "lucide-react";
 import { Employer, Interview } from "./types";
 import EmployerCard from "./components/EmployerCard";
 import {EditEmployerCard} from "./components/EditEmployerCard.tsx";
+import {useLocalStorage} from "usehooks-ts";
 
 function App() {
-  const [employers, setEmployers] = useState<Employer[]>(() => {
-    const saved = localStorage.getItem("jobSearchEmployers");
-    return saved ? JSON.parse(saved) : [];
-  });
+
+  const [localStorageEmployers, setLocalStorageEmployers] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
+
+  const [employers, setEmployers] = useState<Employer[]>(localStorageEmployers);
 
   const [isAdding, setIsAdding] = useState(false);
   const [editCardId, setEditCardId] = useState<string | null>(null);
 
 
   useEffect(() => {
-    localStorage.setItem("jobSearchEmployers", JSON.stringify(employers));
+    setLocalStorageEmployers(employers);
   }, [employers]);
 
 
