@@ -14,6 +14,13 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
 
     const [editedEmployer, setEditedEmployer] = useState<Employer>(getEditedEmployer(employers, editCardId));
 
+
+    const handleCancelEditEmployer = (e: React.FormEvent) => {
+        e.preventDefault();
+        setEditCardId(null);
+        setIsAdding(false);
+    }
+
     const handleEditEmployer = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -101,7 +108,7 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
             <div className="flex justify-end gap-2">
                 <button
                     type="button"
-                    onClick={() => setIsAdding(false)}
+                    onClick={handleCancelEditEmployer}
                     className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
                 >
                     Отмена
