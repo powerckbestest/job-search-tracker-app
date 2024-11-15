@@ -15,3 +15,19 @@ export const createEmployer = ({ companyName, description, hrName, contacts }: C
     cy.findByTestId('save').click();
     cy.findAllByTestId('employerCard').contains(companyName);
 };
+
+export type CreateInterviewProps = {
+    date: string;
+    description: string;
+    status: string;
+};
+export const createInterview = ({ date, description, status }: CreateInterviewProps): void => {
+    cy.findByTestId('expandInterviewList').click();
+    cy.findByTestId('addInterview').click();
+    cy.findByTestId('interviewDate').type(date);
+    cy.findByTestId('interviewDescription').type(description);
+    cy.findByTestId('selectInterviewStatus').select(status);
+    cy.findByTestId('saveInterviewEdit').click();
+    cy.contains('Собеседования').parent().parent().parent().findByText(status).should('exist');
+    cy.findByTestId('expandInterviewList').click();
+};

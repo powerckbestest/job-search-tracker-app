@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import {createEmployer, CreateEmployerProps} from "./commands";
+import {createEmployer, CreateEmployerProps, createInterview, CreateInterviewProps} from "./commands";
 
 
 declare global {
@@ -8,9 +8,11 @@ declare global {
     namespace Cypress {
         interface Chainable {
             createEmployer(options: CreateEmployerProps): Chainable<void>;
+            createInterview(options: CreateInterviewProps): Chainable<void>;
         }
     }
 }
 
 
-Cypress.Commands.add('createEmployer', createEmployer);
+Cypress.Commands.add("createEmployer", createEmployer);
+Cypress.Commands.add('createInterview', createInterview);

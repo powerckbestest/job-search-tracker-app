@@ -179,6 +179,7 @@ export default function InterviewList({
                     className="flex-1 px-3 py-2 border rounded-md text-sm"
                   />
                   <select
+                      data-testid="selectInterviewStatus"
                     value={editingInterview.status}
                     onChange={(e) =>
                       setEditingInterview({
@@ -208,6 +209,7 @@ export default function InterviewList({
                 />
                 <div className="flex justify-end gap-2">
                   <button
+                      data-testid="cancelInterviewEdit"
                     onClick={handleCancelEdit}
                     className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 hover:bg-gray-200 rounded-md"
                   >
@@ -215,6 +217,7 @@ export default function InterviewList({
                     Отмена
                   </button>
                   <button
+                      data-testid="saveInterviewEdit"
                     onClick={handleSaveEdit}
                     className="flex items-center gap-1 px-3 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded-md"
                   >
@@ -241,6 +244,7 @@ export default function InterviewList({
                       {getStatusText(interview.status)}
                     </span>
                     <button
+                        data-testid="changeInterviewStatus"
                       onClick={() => handleEdit(interview)}
                       className="p-1 hover:bg-gray-200 rounded-full transition-colors"
                       title="Редактировать"
