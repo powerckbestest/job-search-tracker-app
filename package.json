@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cy:dev:e2e": "cypress open --e2e --browser chrome",
+    "cy:dev:component": "cypress open --component",
+    "cy:run:e2e": "cypress run  --e2e failOnSnapshotDiff=true --env grepTags=-@smoke",
+    "cy:run:component": "cypress run --component"
   },
   "dependencies": {
     "lucide-react": "^0.344.0",
@@ -17,10 +21,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@testing-library/cypress": "^10.0.2",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.18",
+    "cypress": "^13.15.2",
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",

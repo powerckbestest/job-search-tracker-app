@@ -31,7 +31,9 @@ export default function EmployerCard({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-4 transition-all hover:shadow-lg">
+    <div
+        data-testid="employerCard"
+        className="bg-white rounded-lg shadow-md p-6 mb-4 transition-all hover:shadow-lg">
       <div className="flex justify-between items-start">
         <div className="flex-1">
           <div className="flex items-center gap-2">
@@ -56,6 +58,7 @@ export default function EmployerCard({
         </div>
 
         <button
+            data-testid="expandInterviewList"
           onClick={() => setIsExpanded(!isExpanded)}
           className="p-2 hover:bg-gray-100 rounded-full transition-colors"
         >
@@ -66,6 +69,7 @@ export default function EmployerCard({
       {isExpanded && (
         <div className="mt-4 pt-4 border-t">
           <InterviewList
+              data-testid="interviewList"
             interviews={employer.interviews}
             employerId={employer.id}
             onAddInterview={onAddInterview}
@@ -75,6 +79,7 @@ export default function EmployerCard({
           <div className="mt-4 flex justify-end gap-2">
 
             <button
+                data-testid="editEmployer"
                 onClick={() => {
                   onEditCard(employer.id)
                 }}
@@ -83,6 +88,7 @@ export default function EmployerCard({
               Редактировать
             </button>
             <button
+                data-testid="deleteEmployer"
                 onClick={() => onDeleteEmployer(employer.id)}
                 className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >

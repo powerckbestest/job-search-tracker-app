@@ -51,6 +51,7 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                 </label>
                 <input
                     type="text"
+                    data-testid="companyName"
                     value={editedEmployer?.companyName || ''}
                     onChange={(e) =>
                         setEditedEmployer({
@@ -67,6 +68,7 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                     Описание
                 </label>
                 <textarea
+                    data-testid="description"
                     value={editedEmployer?.description || ''}
                     onChange={(e) =>
                         setEditedEmployer({
@@ -83,6 +85,7 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                     Имя HR
                 </label>
                 <input
+                    data-testid="hrName"
                     type="text"
                     value={editedEmployer?.hrName || ''}
                     onChange={(e) =>
@@ -96,6 +99,7 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                     Контакты
                 </label>
                 <input
+                    data-testid="contacts"
                     type="text"
                     value={editedEmployer?.contacts || ''}
                     onChange={(e) =>
@@ -107,6 +111,7 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
             </div>
             <div className="flex justify-end gap-2">
                 <button
+                    data-testid="cancel"
                     type="button"
                     onClick={handleCancelEditEmployer}
                     className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
@@ -114,6 +119,7 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                     Отмена
                 </button>
                 <button
+                    data-testid="save"
                     type="submit"
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
