@@ -11,7 +11,7 @@ import {RootState} from "./store.ts";
 
 const employersAdapter = createEntityAdapter<Employer, Employer['id']>({
     selectId: (e: Employer) => e.id,
-    sortComparer: (a: Employer, b: Employer) => a.id.localeCompare(b.id),
+    sortComparer: (a: Employer, b: Employer) => b.id.localeCompare(a.id),
 })
 
 export const employersSlice = createSlice({

@@ -18,9 +18,7 @@ const newEmployerTemp: Employer = {
 export const EditEmployerCard: FC = () => {
 
 const dispatch = useAppDispatch();
-
 const foundEmployerId = useSelector(selectValueEditingEmployerId);
-
 const foundEmployerById =  useSelector((state:RootState)=>employersSelectors.selectById(state,foundEmployerId))
 
     const [currentEmployer,setCurrentEmployer] = useState<Employer>(foundEmployerById || newEmployerTemp);
