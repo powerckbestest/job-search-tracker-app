@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { PlusCircle, Briefcase } from "lucide-react";
 import { Employer, Interview } from "./types";
 import EmployerCard from "./components/EmployerCard";
@@ -6,21 +6,32 @@ import {EditEmployerCard} from "./components/EditEmployerCard.tsx";
 import {useLocalStorage} from "usehooks-ts";
 import {DownloadBackup} from "./components/DownloadBackup.tsx";
 import {UploadBackup} from "./components/UploadBackup.tsx";
+import {employersSelectors, employersSlice} from "./model/employers.ts";
+import {useAppDispatch} from "./model/store.ts";
+import {useSelector} from "react-redux";
+import {selectValueEditingEmployerId, selectValueIsAdding, valuesSlice} from "./model/values.ts";
 
 function App() {
 
-    const [localStorageEmployers, setLocalStorageEmployers] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
+    const dispatch = useAppDispatch();
 
-    const [employers, setEmployers] = useState<Employer[]>(localStorageEmployers);
+    const [localStorageEmployers] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
 
-    const [isAdding, setIsAdding] = useState(false);
-    const [editCardId, setEditCardId] = useState<string | null>(null);
+    const employers: Employer[] = useSelector(employersSelectors.selectAll);
 
+    const isAdding = useSelector(selectValueIsAdding);
+    const editingCardId = useSelector(selectValueEditingEmployerId);
+
+    const setIsAdding = (isAdding:boolean)=>{dispatch(valuesSlice.actions.setIsAdding(isAdding))}
+
+
+    const setEmployers = (employers: Employer[]) => dispatch(employersSlice.actions.setEmployers(employers));
 
     useEffect(() => {
-        setLocalStorageEmployers(employers);
-    }, [employers]);
-
+        if (localStorageEmployers.length  ) {
+           dispatch(employersSlice.actions.setEmployers(localStorageEmployers))
+        }
+    },[localStorageEmployers])
 
 
     const handleAddInterview = (employerId: string, interview: Interview) => {
@@ -89,13 +100,13 @@ function App() {
                     </div>
                 </header>
 
-                {(isAdding || editCardId !== null) && (
-                    <EditEmployerCard setIsAdding={setIsAdding}  setEmployers={setEmployers} employers={employers} editCardId={editCardId} setEditCardId={setEditCardId}/>
+                {(isAdding || editingCardId) && (
+                    <EditEmployerCard/>
                 )}
 
                 <div className="space-y-4">
                     {employers.map((employer) => {
-                        if (editCardId === employer.id) {
+                        if (editingCardId === employer.id) {
                             return <></>
                         }
 
@@ -103,7 +114,6 @@ function App() {
                             <EmployerCard
                                 key={employer.id}
                                 employer={employer}
-                                onEditCard={setEditCardId}
                                 onAddInterview={handleAddInterview}
                                 onUpdateEmployer={handleUpdateEmployer}
                                 onDeleteEmployer={handleDeleteEmployer}

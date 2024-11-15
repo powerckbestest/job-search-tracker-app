@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Building2,
   ChevronDown,
@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { Employer, Interview } from "../types";
 import InterviewList from "./InterviewList";
+import {useAppDispatch} from "../model/store.ts";
+import {valuesSlice} from "../model/values.ts";
 
 
 
@@ -18,17 +20,18 @@ interface Props {
   onUpdateEmployer: (employer: Employer) => void;
   onDeleteEmployer: (id: string) => void;
   onUpdateInterview: (employerId: string, interview: Interview) => void;
-  onEditCard: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function EmployerCard({
   employer,
   onAddInterview,
   onDeleteEmployer,
-  onUpdateInterview,
-                                       onEditCard,
+  onUpdateInterview
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const setEditingEmployerId = (id:Employer['id'])=>{dispatch(valuesSlice.actions.setEditingEmployerId(id))}
 
   return (
     <div
@@ -81,7 +84,7 @@ export default function EmployerCard({
             <button
                 data-testid="editEmployer"
                 onClick={() => {
-                  onEditCard(employer.id)
+                  setEditingEmployerId(employer.id)
                 }}
                 className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
             >

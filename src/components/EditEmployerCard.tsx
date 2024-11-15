@@ -1,50 +1,59 @@
 import React, {FC, useState} from "react";
 import {Employer} from "../types.ts";
+import {RootState, useAppDispatch} from "../model/store.ts";
+import {selectValueEditingEmployerId, valuesSlice} from "../model/values.ts";
+import {employersSelectors, employersSlice} from "../model/employers.ts";
+import {useSelector} from "react-redux";
 
-type EditEmployerCardProps = {
-    setIsAdding: React.Dispatch<React.SetStateAction<boolean>>;
-    employers: Employer[];
-    setEmployers: React.Dispatch<React.SetStateAction<Employer[]>>;
-    editCardId: string | null;
-    setEditCardId: React.Dispatch<React.SetStateAction<string|null>>
-}
+const newEmployerTemp: Employer = {
+    companyName: "",
+    description: "",
+    hrName: "",
+    contacts: "",
+    id: "",
+    interviews: [],
+    createdAt: ""
+};
 
+export const EditEmployerCard: FC = () => {
 
-export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employers, setEmployers, editCardId, setEditCardId}) => {
+const dispatch = useAppDispatch();
 
-    const [editedEmployer, setEditedEmployer] = useState<Employer>(getEditedEmployer(employers, editCardId));
+const foundEmployerId = useSelector(selectValueEditingEmployerId);
 
+const foundEmployerById =  useSelector((state:RootState)=>employersSelectors.selectById(state,foundEmployerId))
+
+    const [currentEmployer,setCurrentEmployer] = useState<Employer>(foundEmployerById || newEmployerTemp);
 
     const handleCancelEditEmployer = (e: React.FormEvent) => {
         e.preventDefault();
-        setEditCardId(null);
-        setIsAdding(false);
+        dispatch(valuesSlice.actions.resetEditingEmployerId());
+        dispatch(valuesSlice.actions.setIsAdding(false));
     }
 
-    const handleEditEmployer = (e: React.FormEvent) => {
+    const handleSubmitEmployer = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (editCardId !== null){
-            const filteredEditedEmployers = employers.filter((employer:Employer)=> employer.id !== editCardId)
-            setEmployers([editedEmployer, ...filteredEditedEmployers]);
-            setEditCardId(null)
-            setIsAdding(false);
+        if (foundEmployerId){
+            dispatch(employersSlice.actions.upsertEmployer(currentEmployer));
+            dispatch(valuesSlice.actions.resetEditingEmployerId());
+            dispatch(valuesSlice.actions.setIsAdding(false));
             return
         }
 
         const employer: Employer = {
-            ...editedEmployer,
+            ...currentEmployer,
             id: Date.now().toString(),
             interviews: [],
             createdAt: new Date().toISOString(),
         };
-        setEmployers([employer, ...employers]);
-        setIsAdding(false);
+        dispatch(employersSlice.actions.upsertEmployer(employer));
+        dispatch(valuesSlice.actions.setIsAdding(false));
           return employer
     }
 
     return (<div className="mb-6 bg-white rounded-lg shadow-md p-6">
-        <form onSubmit={handleEditEmployer} className="space-y-4">
+        <form onSubmit={handleSubmitEmployer} className="space-y-4">
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                     Название компании
@@ -52,10 +61,10 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                 <input
                     type="text"
                     data-testid="companyName"
-                    value={editedEmployer?.companyName || ''}
+                    value={currentEmployer?.companyName || ''}
                     onChange={(e) =>
-                        setEditedEmployer({
-                            ...editedEmployer,
+                        setCurrentEmployer({
+                            ...currentEmployer,
                             companyName: e.target.value,
                         })
                     }
@@ -69,13 +78,13 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                 </label>
                 <textarea
                     data-testid="description"
-                    value={editedEmployer?.description || ''}
+                    value={currentEmployer?.description || ''}
                     onChange={(e) =>
-                        setEditedEmployer({
-                            ...editedEmployer,
+                        setCurrentEmployer({
+                            ...currentEmployer,
                             description: e.target.value,
                         })
-                    }
+                }
                     className="w-full px-3 py-2 border rounded-md"
                     rows={3}
                 />
@@ -87,9 +96,9 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                 <input
                     data-testid="hrName"
                     type="text"
-                    value={editedEmployer?.hrName || ''}
+                    value={currentEmployer?.hrName || ''}
                     onChange={(e) =>
-                        setEditedEmployer({...editedEmployer, hrName: e.target.value})
+                        setCurrentEmployer({...currentEmployer, hrName: e.target.value})
                     }
                     className="w-full px-3 py-2 border rounded-md"
                 />
@@ -101,9 +110,9 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
                 <input
                     data-testid="contacts"
                     type="text"
-                    value={editedEmployer?.contacts || ''}
+                    value={currentEmployer?.contacts || ''}
                     onChange={(e) =>
-                        setEditedEmployer({...editedEmployer, contacts: e.target.value})
+                        setCurrentEmployer({...currentEmployer, contacts: e.target.value})
                     }
                     className="w-full px-3 py-2 border rounded-md"
                     placeholder="Email, телефон, etc."
@@ -131,24 +140,3 @@ export const EditEmployerCard: FC<EditEmployerCardProps> = ({setIsAdding, employ
 }
 
 
-const getEditedEmployer = (employers: Employer[], editCardId: string | null) => {
-    const newEmployerTemp: Employer = {
-        companyName: "",
-        description: "",
-        hrName: "",
-        contacts: "",
-        id: "",
-        interviews: [],
-        createdAt: ""
-    };
-
-    if (editCardId) {
-        const foundEmployer = employers.find((emp) => emp.id === editCardId);
-        if (!foundEmployer) {
-            return newEmployerTemp
-        }
-        return foundEmployer
-    }
-    return newEmployerTemp
-
-}
