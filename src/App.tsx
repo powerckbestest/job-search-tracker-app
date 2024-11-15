@@ -15,7 +15,7 @@ function App() {
 
     const dispatch = useAppDispatch();
 
-    const [localStorageEmployers] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
+    const [localStorageEmployers, ,removeLocalStorageEmployers] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
 
     const employers: Employer[] = useSelector(employersSelectors.selectAll);
 
@@ -28,8 +28,9 @@ function App() {
     const setEmployers = (employers: Employer[]) => dispatch(employersSlice.actions.setEmployers(employers));
 
     useEffect(() => {
-        if (localStorageEmployers.length  ) {
+        if (localStorageEmployers.length) {
            dispatch(employersSlice.actions.setEmployers(localStorageEmployers))
+             removeLocalStorageEmployers()
         }
     },[localStorageEmployers])
 
