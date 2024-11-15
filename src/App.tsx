@@ -4,6 +4,8 @@ import { Employer, Interview } from "./types";
 import EmployerCard from "./components/EmployerCard";
 import {EditEmployerCard} from "./components/EditEmployerCard.tsx";
 import {useLocalStorage} from "usehooks-ts";
+import {DownloadBackup} from "./components/DownloadBackup.tsx";
+import {UploadBackup} from "./components/UploadBackup.tsx";
 
 function App() {
 
@@ -74,6 +76,8 @@ function App() {
               <Briefcase className="text-blue-600" size={32} />
               <h1 className="text-2xl font-bold text-gray-800">Поиск работы</h1>
             </div>
+            <UploadBackup />
+            <DownloadBackup />
             <button
                 data-testid="addEmployer"
               onClick={() => setIsAdding(true)}
@@ -115,6 +119,7 @@ function App() {
           )}
         </div>
       </div>
+
     </div>
   );
 }
