@@ -1,9 +1,7 @@
-import { useLocalStorage } from "usehooks-ts";
-import { Employer } from "../types";
 import { HardDriveUpload } from "lucide-react";
+import {persistor } from "../model/store.ts";
 
 export const UploadBackup = () => {
-    const [, setBackupData] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
 
     const uploadBackup = () => {
         const input = document.createElement('input');
@@ -15,11 +13,12 @@ export const UploadBackup = () => {
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = (e: ProgressEvent<FileReader>) => {
+            reader.onload = async (e: ProgressEvent<FileReader>) => {
                 try {
-                    const data: Employer[] = JSON.parse(e.target?.result as string);
-                    setBackupData(data);
-                    window.location.reload(); // Reload the page to reflect new data
+                    persistor.pause()
+                    const data = JSON.parse(e.target?.result as string);
+                    localStorage.setItem('persist:job-search-tracker-app-state', JSON.stringify(data));
+                     window.location.reload();
                 } catch (error) {
                     console.error("Error parsing JSON:", error);
                 }
