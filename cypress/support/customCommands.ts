@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import {createEmployer, CreateEmployerProps, createInterview, CreateInterviewProps} from "./commands";
+import {clearDownloads, createEmployer, CreateEmployerProps, createInterview, CreateInterviewProps} from "./commands";
 
 
 declare global {
@@ -9,6 +9,7 @@ declare global {
         interface Chainable {
             createEmployer(options: CreateEmployerProps): Chainable<void>;
             createInterview(options: CreateInterviewProps): Chainable<void>;
+            clearDownloads(): Chainable<void>;
         }
     }
 }
@@ -16,3 +17,4 @@ declare global {
 
 Cypress.Commands.add("createEmployer", createEmployer);
 Cypress.Commands.add('createInterview', createInterview);
+Cypress.Commands.add('clearDownloads', clearDownloads);

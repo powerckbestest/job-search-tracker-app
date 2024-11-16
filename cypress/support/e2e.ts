@@ -18,3 +18,7 @@ import './commandsInt'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+import * as CYD from 'cy-verify-downloads';
+CYD.addCustomCommand()
+

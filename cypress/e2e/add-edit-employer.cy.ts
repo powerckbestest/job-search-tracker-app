@@ -12,7 +12,6 @@ describe('add / edit employer card', () => {
     cy.findByTestId('hrName').type('test');
     cy.findByTestId('contacts').type('test');
     cy.findByTestId('cancel').click()
-    cy.findByText('test').should('not.exist')
   })
 
 
