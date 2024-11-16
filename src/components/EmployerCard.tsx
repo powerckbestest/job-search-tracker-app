@@ -7,7 +7,7 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { Employer, Interview } from "../types";
+import { Employer } from "../types";
 import InterviewList from "./InterviewList";
 import {useAppDispatch} from "../model/store.ts";
 import {valuesSlice} from "../model/values.ts";
@@ -16,17 +16,12 @@ import {valuesSlice} from "../model/values.ts";
 
 interface Props {
   employer: Employer;
-  onAddInterview: (employerId: string, interview: Interview) => void;
-  onUpdateEmployer: (employer: Employer) => void;
   onDeleteEmployer: (id: string) => void;
-  onUpdateInterview: (employerId: string, interview: Interview) => void;
 }
 
 export default function EmployerCard({
   employer,
-  onAddInterview,
   onDeleteEmployer,
-  onUpdateInterview
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -75,8 +70,6 @@ export default function EmployerCard({
               data-testid="interviewList"
             interviews={employer.interviews}
             employerId={employer.id}
-            onAddInterview={onAddInterview}
-            onUpdateInterview={onUpdateInterview}
           />
 
           <div className="mt-4 flex justify-end gap-2">

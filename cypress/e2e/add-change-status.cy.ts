@@ -19,7 +19,7 @@ describe('add / change status', () => {
       cy.createEmployer({companyName: 'testCompany', description: 'test', hrName: 'test', contacts: 'test'})
       cy.createInterview({companyName: 'testCompany', date: '2020-01-01T10:00:00', description: 'Тестовое описание прошедшего интервью', status: 'Завершено'})
       cy.findByTestId('expandInterviewList').click()
-      cy.findByTestId('changeInterviewStatus').click()
+      cy.findByTestId('editInterview').click()
       cy.findByTestId('selectInterviewStatus').select('В ожидании')
       cy.findByTestId('saveInterviewEdit').click()
       cy.contains('Собеседования').parent().parent().contains('В ожидании').should('exist');
@@ -30,7 +30,7 @@ describe('add / change status', () => {
         cy.createEmployer({companyName: 'testCompany', description: 'test', hrName: 'test', contacts: 'test'})
         cy.createInterview({companyName: 'testCompany', date: '2020-01-01T10:00:00', description: 'Тестовое описание прошедшего интервью', status: 'Завершено'})
         cy.findByTestId('expandInterviewList').click()
-        cy.findByTestId('changeInterviewStatus').click()
+        cy.findByTestId('editInterview').click()
         cy.findByTestId('selectInterviewStatus').select('В ожидании')
         cy.findByTestId('cancelInterviewEdit').click()
         cy.contains('Собеседования').parent().parent().parent().contains('Завершено').should('exist');

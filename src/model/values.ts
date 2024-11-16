@@ -4,11 +4,13 @@ import {RootState} from "./store.ts";
 
 type Values = {
     editingEmployerId: string | null;
+    editingEmployerInterviewId: string | null;
     isAdding: boolean;
 }
 
 const initialValues: Values = {
     editingEmployerId: null,
+    editingEmployerInterviewId: null,
     isAdding: false,
 }
 

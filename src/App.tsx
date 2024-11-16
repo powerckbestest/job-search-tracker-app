@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { PlusCircle, Briefcase } from "lucide-react";
-import { Employer, Interview } from "./types";
+import { Employer } from "./types";
 import EmployerCard from "./components/EmployerCard";
 import {EditEmployerCard} from "./components/EditEmployerCard.tsx";
 import {useLocalStorage} from "usehooks-ts";
@@ -33,45 +33,6 @@ function App() {
              removeLocalStorageEmployers()
         }
     },[localStorageEmployers])
-
-
-    const handleAddInterview = (employerId: string, interview: Interview) => {
-        setEmployers(
-            employers.map((emp) =>
-                emp.id === employerId
-                    ? { ...emp, interviews: [...emp.interviews, interview] }
-                    : emp
-            )
-        );
-    };
-
-    const handleUpdateInterview = (
-        employerId: string,
-        updatedInterview: Interview
-    ) => {
-        setEmployers(
-            employers.map((emp) =>
-                emp.id === employerId
-                    ? {
-                        ...emp,
-                        interviews: emp.interviews.map((interview) =>
-                            interview.id === updatedInterview.id
-                                ? updatedInterview
-                                : interview
-                        ),
-                    }
-                    : emp
-            )
-        );
-    };
-
-    const handleUpdateEmployer = (updatedEmployer: Employer) => {
-        setEmployers(
-            employers.map((emp) =>
-                emp.id === updatedEmployer.id ? updatedEmployer : emp
-            )
-        );
-    };
 
     const handleDeleteEmployer = (id: string) => {
         if (window.confirm("Вы уверены, что хотите удалить этого работодателя?")) {
@@ -115,10 +76,7 @@ function App() {
                             <EmployerCard
                                 key={employer.id}
                                 employer={employer}
-                                onAddInterview={handleAddInterview}
-                                onUpdateEmployer={handleUpdateEmployer}
                                 onDeleteEmployer={handleDeleteEmployer}
-                                onUpdateInterview={handleUpdateInterview}
                             />)
                     })}
 
