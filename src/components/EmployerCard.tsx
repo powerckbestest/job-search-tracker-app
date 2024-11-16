@@ -11,17 +11,16 @@ import { Employer } from "../types";
 import InterviewList from "./InterviewList";
 import {useAppDispatch} from "../model/store.ts";
 import {valuesSlice} from "../model/values.ts";
+import {employersSlice} from "../model/employers.ts";
 
 
 
 interface Props {
   employer: Employer;
-  onDeleteEmployer: (id: string) => void;
 }
 
 export default function EmployerCard({
   employer,
-  onDeleteEmployer,
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -85,7 +84,9 @@ export default function EmployerCard({
             </button>
             <button
                 data-testid="deleteEmployer"
-                onClick={() => onDeleteEmployer(employer.id)}
+                onClick={() => {
+                  dispatch(employersSlice.actions.deleteEmployer(employer.id))
+                }}
                 className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Удалить

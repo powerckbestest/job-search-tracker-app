@@ -24,21 +24,12 @@ function App() {
 
     const setIsAdding = (isAdding:boolean)=>{dispatch(valuesSlice.actions.setIsAdding(isAdding))}
 
-
-    const setEmployers = (employers: Employer[]) => dispatch(employersSlice.actions.setEmployers(employers));
-
     useEffect(() => {
         if (localStorageEmployers.length) {
            dispatch(employersSlice.actions.setEmployers(localStorageEmployers))
              removeLocalStorageEmployers()
         }
     },[localStorageEmployers])
-
-    const handleDeleteEmployer = (id: string) => {
-        if (window.confirm("Вы уверены, что хотите удалить этого работодателя?")) {
-            setEmployers(employers.filter((emp) => emp.id !== id));
-        }
-    };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -76,7 +67,6 @@ function App() {
                             <EmployerCard
                                 key={employer.id}
                                 employer={employer}
-                                onDeleteEmployer={handleDeleteEmployer}
                             />)
                     })}
 
