@@ -1,27 +1,25 @@
-import { useState, useEffect } from "react";
-import { PlusCircle, Briefcase } from "lucide-react";
-import { Employer, Interview } from "./types";
-import EmployerCard from "./components/EmployerCard";
-import {EditEmployerCard} from "./components/EditEmployerCard.tsx";
-import {useLocalStorage} from "usehooks-ts";
-import {DownloadBackup} from "./components/DownloadBackup.tsx";
-import {UploadBackup} from "./components/UploadBackup.tsx";
+import { useState, useEffect } from 'react';
+import { PlusCircle, Briefcase } from 'lucide-react';
+import { Employer, Interview } from './types';
+import EmployerCard from './components/EmployerCard';
+import { EditEmployerCard } from './components/EditEmployerCard.tsx';
+import { useLocalStorage } from 'usehooks-ts';
+import { DownloadBackup } from './components/DownloadBackup.tsx';
+import { UploadBackup } from './components/UploadBackup.tsx';
 
 function App() {
-
-  const [localStorageEmployers, setLocalStorageEmployers] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
+  const [localStorageEmployers, setLocalStorageEmployers] = useLocalStorage<
+    Employer[]
+  >('jobSearchEmployers', []);
 
   const [employers, setEmployers] = useState<Employer[]>(localStorageEmployers);
 
   const [isAdding, setIsAdding] = useState(false);
   const [editCardId, setEditCardId] = useState<string | null>(null);
 
-
   useEffect(() => {
     setLocalStorageEmployers(employers);
   }, [employers]);
-
-
 
   const handleAddInterview = (employerId: string, interview: Interview) => {
     setEmployers(
@@ -62,14 +60,14 @@ function App() {
   };
 
   const handleDeleteEmployer = (id: string) => {
-    if (window.confirm("Вы уверены, что хотите удалить этого работодателя?")) {
+    if (window.confirm('Вы уверены, что хотите удалить этого работодателя?')) {
       setEmployers(employers.filter((emp) => emp.id !== id));
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="mx-auto max-w-4xl p-6">
         <header className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -79,9 +77,9 @@ function App() {
             <UploadBackup />
             <DownloadBackup />
             <button
-                data-testid="addEmployer"
+              data-testid="addEmployer"
               onClick={() => setIsAdding(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
             >
               <PlusCircle size={20} />
               Добавить работодателя
@@ -90,36 +88,41 @@ function App() {
         </header>
 
         {(isAdding || editCardId !== null) && (
-            <EditEmployerCard setIsAdding={setIsAdding}  setEmployers={setEmployers} employers={employers} editCardId={editCardId} setEditCardId={setEditCardId}/>
+          <EditEmployerCard
+            setIsAdding={setIsAdding}
+            setEmployers={setEmployers}
+            employers={employers}
+            editCardId={editCardId}
+            setEditCardId={setEditCardId}
+          />
         )}
 
         <div className="space-y-4">
           {employers.map((employer) => {
-                if (editCardId === employer.id) {
-                  return <></>
-                }
+            if (editCardId === employer.id) {
+              return <></>;
+            }
 
-                return (
-                    <EmployerCard
-                        key={employer.id}
-                        employer={employer}
-                        onEditCard={setEditCardId}
-                        onAddInterview={handleAddInterview}
-                        onUpdateEmployer={handleUpdateEmployer}
-                        onDeleteEmployer={handleDeleteEmployer}
-                        onUpdateInterview={handleUpdateInterview}
-                    />)
-              })}
-
+            return (
+              <EmployerCard
+                key={employer.id}
+                employer={employer}
+                onEditCard={setEditCardId}
+                onAddInterview={handleAddInterview}
+                onUpdateEmployer={handleUpdateEmployer}
+                onDeleteEmployer={handleDeleteEmployer}
+                onUpdateInterview={handleUpdateInterview}
+              />
+            );
+          })}
 
           {employers.length === 0 && !isAdding && (
-            <div className="text-center py-12">
+            <div className="py-12 text-center">
               <p className="text-gray-500">Нет добавленных работодателей</p>
             </div>
           )}
         </div>
       </div>
-
     </div>
   );
 }

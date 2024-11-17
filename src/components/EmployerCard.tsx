@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Building2,
   ChevronDown,
@@ -6,11 +6,9 @@ import {
   Mail,
   Phone,
   User,
-} from "lucide-react";
-import { Employer, Interview } from "../types";
-import InterviewList from "./InterviewList";
-
-
+} from 'lucide-react';
+import { Employer, Interview } from '../types';
+import InterviewList from './InterviewList';
 
 interface Props {
   employer: Employer;
@@ -26,15 +24,16 @@ export default function EmployerCard({
   onAddInterview,
   onDeleteEmployer,
   onUpdateInterview,
-                                       onEditCard,
+  onEditCard,
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div
-        data-testid="employerCard"
-        className="bg-white rounded-lg shadow-md p-6 mb-4 transition-all hover:shadow-lg">
-      <div className="flex justify-between items-start">
+      data-testid="employerCard"
+      className="mb-4 rounded-lg bg-white p-6 shadow-md transition-all hover:shadow-lg"
+    >
+      <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <Building2 className="text-blue-600" size={20} />
@@ -42,7 +41,7 @@ export default function EmployerCard({
               {employer.companyName}
             </h3>
           </div>
-          <p className="text-gray-600 mt-2">{employer.description}</p>
+          <p className="mt-2 text-gray-600">{employer.description}</p>
 
           <div className="mt-4 space-y-2">
             <div className="flex items-center gap-2">
@@ -58,18 +57,18 @@ export default function EmployerCard({
         </div>
 
         <button
-            data-testid="expandInterviewList"
+          data-testid="expandInterviewList"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          className="rounded-full p-2 transition-colors hover:bg-gray-100"
         >
           {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </button>
       </div>
 
       {isExpanded && (
-        <div className="mt-4 pt-4 border-t">
+        <div className="mt-4 border-t pt-4">
           <InterviewList
-              data-testid="interviewList"
+            data-testid="interviewList"
             interviews={employer.interviews}
             employerId={employer.id}
             onAddInterview={onAddInterview}
@@ -77,20 +76,19 @@ export default function EmployerCard({
           />
 
           <div className="mt-4 flex justify-end gap-2">
-
             <button
-                data-testid="editEmployer"
-                onClick={() => {
-                  onEditCard(employer.id)
-                }}
-                className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+              data-testid="editEmployer"
+              onClick={() => {
+                onEditCard(employer.id);
+              }}
+              className="rounded-md px-3 py-1 text-sm text-blue-600 transition-colors hover:bg-blue-50"
             >
               Редактировать
             </button>
             <button
-                data-testid="deleteEmployer"
-                onClick={() => onDeleteEmployer(employer.id)}
-                className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
+              data-testid="deleteEmployer"
+              onClick={() => onDeleteEmployer(employer.id)}
+              className="rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
             >
               Удалить
             </button>

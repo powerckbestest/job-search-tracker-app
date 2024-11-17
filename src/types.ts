@@ -2,7 +2,7 @@ export interface Interview {
   id: string;
   date: string;
   notes: string;
-  status: "pending" | "completed" | "rejected" | "accepted";
+  status: 'pending' | 'completed' | 'rejected' | 'accepted';
 }
 
 export interface Employer {
