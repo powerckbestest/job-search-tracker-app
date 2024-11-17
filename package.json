@@ -13,7 +13,17 @@
     "cy:dev:e2e": "cypress open --e2e --browser chrome",
     "cy:dev:component": "cypress open --component",
     "cy:run:e2e": "cypress run  --e2e failOnSnapshotDiff=true --env grepTags=-@smoke",
-    "cy:run:component": "cypress run --component"
+    "cy:run:component": "cypress run --component",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "**/*.{json,md,css,scss,html}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "lucide-react": "^0.344.0",
@@ -34,6 +44,8 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.10",
     "postcss": "^8.4.35",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
