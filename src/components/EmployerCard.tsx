@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from "react";
 import {
   Building2,
   ChevronDown,
@@ -6,34 +6,32 @@ import {
   Mail,
   Phone,
   User,
-} from 'lucide-react';
-import { Employer, Interview } from '../types';
-import InterviewList from './InterviewList';
+} from "lucide-react";
+import { Employer } from "../types";
+import InterviewList from "./InterviewList";
+import {useAppDispatch} from "../model/store.ts";
+import {valuesSlice} from "../model/values.ts";
+import {employersSlice} from "../model/employers.ts";
+
+
 
 interface Props {
   employer: Employer;
-  onAddInterview: (employerId: string, interview: Interview) => void;
-  onUpdateEmployer: (employer: Employer) => void;
-  onDeleteEmployer: (id: string) => void;
-  onUpdateInterview: (employerId: string, interview: Interview) => void;
-  onEditCard: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function EmployerCard({
   employer,
-  onAddInterview,
-  onDeleteEmployer,
-  onUpdateInterview,
-  onEditCard,
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const dispatch = useAppDispatch();
+  const setEditingEmployerId = (id:Employer['id'])=>{dispatch(valuesSlice.actions.setEditingEmployerId(id))}
+
   return (
     <div
-      data-testid="employerCard"
-      className="mb-4 rounded-lg bg-white p-6 shadow-md transition-all hover:shadow-lg"
-    >
-      <div className="flex items-start justify-between">
+        data-testid="employerCard"
+        className="bg-white rounded-lg shadow-md p-6 mb-4 transition-all hover:shadow-lg">
+      <div className="flex justify-between items-start">
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <Building2 className="text-blue-600" size={20} />
@@ -41,7 +39,7 @@ export default function EmployerCard({
               {employer.companyName}
             </h3>
           </div>
-          <p className="mt-2 text-gray-600">{employer.description}</p>
+          <p className="text-gray-600 mt-2">{employer.description}</p>
 
           <div className="mt-4 space-y-2">
             <div className="flex items-center gap-2">
@@ -57,38 +55,39 @@ export default function EmployerCard({
         </div>
 
         <button
-          data-testid="expandInterviewList"
+            data-testid="expandInterviewList"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="rounded-full p-2 transition-colors hover:bg-gray-100"
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
         >
           {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </button>
       </div>
 
       {isExpanded && (
-        <div className="mt-4 border-t pt-4">
+        <div className="mt-4 pt-4 border-t">
           <InterviewList
-            data-testid="interviewList"
+              data-testid="interviewList"
             interviews={employer.interviews}
             employerId={employer.id}
-            onAddInterview={onAddInterview}
-            onUpdateInterview={onUpdateInterview}
           />
 
           <div className="mt-4 flex justify-end gap-2">
+
             <button
-              data-testid="editEmployer"
-              onClick={() => {
-                onEditCard(employer.id);
-              }}
-              className="rounded-md px-3 py-1 text-sm text-blue-600 transition-colors hover:bg-blue-50"
+                data-testid="editEmployer"
+                onClick={() => {
+                  setEditingEmployerId(employer.id)
+                }}
+                className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
             >
               Редактировать
             </button>
             <button
-              data-testid="deleteEmployer"
-              onClick={() => onDeleteEmployer(employer.id)}
-              className="rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
+                data-testid="deleteEmployer"
+                onClick={() => {
+                  dispatch(employersSlice.actions.deleteEmployer(employer.id))
+                }}
+                className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Удалить
             </button>
