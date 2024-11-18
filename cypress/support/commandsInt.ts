@@ -35,5 +35,5 @@
 //     }
 //   }
 // }
-import "@testing-library/cypress/add-commands"
-import "./customCommands"
+import '@testing-library/cypress/add-commands';
+import './customCommands';
