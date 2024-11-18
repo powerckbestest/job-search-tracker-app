@@ -44,7 +44,6 @@ describe('add / edit employer card', () => {
       contacts: 'test',
     });
 
-    cy.findByTestId('expandInterviewList').click();
     cy.findByTestId('deleteEmployer').click();
     cy.findByTestId('employerCard').should('not.exist');
     cy.findByText('Нет добавленных работодателей').should('exist');
@@ -58,7 +57,6 @@ describe('add / edit employer card', () => {
       contacts: 'test',
     });
 
-    cy.findByTestId('expandInterviewList').click();
     cy.findByTestId('editEmployer').click();
     cy.findByTestId('companyName').clear().type('test2');
     cy.findByTestId('description').clear().type('test2');

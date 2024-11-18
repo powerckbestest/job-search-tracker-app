@@ -1,61 +1,13 @@
-import { FC, useState } from 'react';
-import {
-  Building2,
-  ChevronDown,
-  ChevronUp,
-  Mail,
-  Phone,
-  User,
-} from 'lucide-react';
+import { useState } from 'react';
+import { Building2, ChevronDown, ChevronUp, Mail, Phone, User } from 'lucide-react';
 import { Employer } from '../types';
 import InterviewList from './InterviewList';
-import { useAppDispatch } from '../model/store.ts';
-import { valuesSlice } from '../model/values.ts';
-import { employersSlice } from '../model/employers.ts';
+import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
+import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
 
 interface Props {
   employer: Employer;
 }
-
-type EditCurrentEmployerProps = {
-  employerId: Employer['id'];
-};
-const EditCurrentEmployer: FC<EditCurrentEmployerProps> = ({ employerId }) => {
-  const dispatch = useAppDispatch();
-
-  return (
-    <button
-      data-testid="editEmployer"
-      onClick={() => {
-        dispatch(valuesSlice.actions.setEditingEmployerId(employerId));
-      }}
-      className="rounded-md px-3 py-1 text-sm text-blue-600 transition-colors hover:bg-blue-50"
-    >
-      Редактировать
-    </button>
-  );
-};
-
-type DeleteCurrentEmployerProps = {
-  employerId: Employer['id'];
-};
-const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
-  employerId,
-}) => {
-  const dispatch = useAppDispatch();
-
-  return (
-    <button
-      data-testid="deleteEmployer"
-      onClick={() => {
-        dispatch(employersSlice.actions.deleteEmployer(employerId));
-      }}
-      className="rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
-    >
-      Удалить
-    </button>
-  );
-};
 
 export default function EmployerCard({ employer }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -72,6 +24,12 @@ export default function EmployerCard({ employer }: Props) {
             <h3 className="text-xl font-semibold text-gray-800">
               {employer.companyName}
             </h3>
+
+            <DeleteCurrentEmployer employerId={employer.id} />
+            <div className="ml-auto pr-3">
+            <EditCurrentEmployer employerId={employer.id}/>
+            </div>
+
           </div>
           <p className="mt-2 text-gray-600">{employer.description}</p>
 
@@ -104,11 +62,6 @@ export default function EmployerCard({ employer }: Props) {
             interviews={employer.interviews}
             employerId={employer.id}
           />
-
-          <div className="mt-4 flex justify-end gap-2">
-            <EditCurrentEmployer employerId={employer.id} />
-            <DeleteCurrentEmployer employerId={employer.id} />
-          </div>
         </div>
       )}
     </div>
