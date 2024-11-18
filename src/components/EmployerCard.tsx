@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import {
   Building2,
   ChevronDown,
@@ -17,13 +17,48 @@ interface Props {
   employer: Employer;
 }
 
+type EditCurrentEmployerProps = {
+  employerId: Employer['id'];
+};
+const EditCurrentEmployer: FC<EditCurrentEmployerProps> = ({ employerId }) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <button
+      data-testid="editEmployer"
+      onClick={() => {
+        dispatch(valuesSlice.actions.setEditingEmployerId(employerId));
+      }}
+      className="rounded-md px-3 py-1 text-sm text-blue-600 transition-colors hover:bg-blue-50"
+    >
+      Редактировать
+    </button>
+  );
+};
+
+type DeleteCurrentEmployerProps = {
+  employerId: Employer['id'];
+};
+const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
+  employerId,
+}) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <button
+      data-testid="deleteEmployer"
+      onClick={() => {
+        dispatch(employersSlice.actions.deleteEmployer(employerId));
+      }}
+      className="rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
+    >
+      Удалить
+    </button>
+  );
+};
+
 export default function EmployerCard({ employer }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const dispatch = useAppDispatch();
-  const setEditingEmployerId = (id: Employer['id']) => {
-    dispatch(valuesSlice.actions.setEditingEmployerId(id));
-  };
 
   return (
     <div
@@ -71,24 +106,8 @@ export default function EmployerCard({ employer }: Props) {
           />
 
           <div className="mt-4 flex justify-end gap-2">
-            <button
-              data-testid="editEmployer"
-              onClick={() => {
-                setEditingEmployerId(employer.id);
-              }}
-              className="rounded-md px-3 py-1 text-sm text-blue-600 transition-colors hover:bg-blue-50"
-            >
-              Редактировать
-            </button>
-            <button
-              data-testid="deleteEmployer"
-              onClick={() => {
-                dispatch(employersSlice.actions.deleteEmployer(employer.id));
-              }}
-              className="rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
-            >
-              Удалить
-            </button>
+            <EditCurrentEmployer employerId={employer.id} />
+            <DeleteCurrentEmployer employerId={employer.id} />
           </div>
         </div>
       )}
