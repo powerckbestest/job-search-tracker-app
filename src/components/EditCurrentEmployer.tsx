@@ -7,7 +7,9 @@ import { Employer } from '../types.ts';
 type EditCurrentEmployerProps = {
   employerId: Employer['id'];
 };
-export const EditCurrentEmployer: FC<EditCurrentEmployerProps> = ({ employerId }) => {
+export const EditCurrentEmployer: FC<EditCurrentEmployerProps> = ({
+  employerId,
+}) => {
   const dispatch = useAppDispatch();
 
   return (

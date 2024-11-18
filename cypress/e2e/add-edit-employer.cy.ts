@@ -43,10 +43,23 @@ describe('add / edit employer card', () => {
       hrName: 'test',
       contacts: 'test',
     });
-
     cy.findByTestId('deleteEmployer').click();
+    cy.findByTestId('confirm-delete').click();
     cy.findByTestId('employerCard').should('not.exist');
     cy.findByText('Нет добавленных работодателей').should('exist');
+  });
+
+  it('cancel delete employer', () => {
+    cy.createEmployer({
+      companyName: 'test',
+      description: 'test',
+      hrName: 'test',
+      contacts: 'test',
+    });
+
+    cy.findByTestId('deleteEmployer').click();
+    cy.findByTestId('confirm-cancel').click();
+    cy.findByTestId('employerCard').should('exist');
   });
 
   it('edit employer', () => {

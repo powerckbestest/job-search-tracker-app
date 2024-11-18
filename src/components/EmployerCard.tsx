@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { Building2, ChevronDown, ChevronUp, Mail, Phone, User } from 'lucide-react';
+import {
+  Building2,
+  ChevronDown,
+  ChevronUp,
+  Mail,
+  Phone,
+  User,
+} from 'lucide-react';
 import { Employer } from '../types';
 import InterviewList from './InterviewList';
 import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
@@ -27,9 +34,8 @@ export default function EmployerCard({ employer }: Props) {
 
             <DeleteCurrentEmployer employerId={employer.id} />
             <div className="ml-auto pr-3">
-            <EditCurrentEmployer employerId={employer.id}/>
+              <EditCurrentEmployer employerId={employer.id} />
             </div>
-
           </div>
           <p className="mt-2 text-gray-600">{employer.description}</p>
 
