@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Building2,
   ChevronDown,
@@ -7,28 +7,25 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { Employer, Interview } from "../types";
+import { Employer } from "../types";
 import InterviewList from "./InterviewList";
+import {useAppDispatch} from "../model/store.ts";
+import {valuesSlice} from "../model/values.ts";
+import {employersSlice} from "../model/employers.ts";
 
 
 
 interface Props {
   employer: Employer;
-  onAddInterview: (employerId: string, interview: Interview) => void;
-  onUpdateEmployer: (employer: Employer) => void;
-  onDeleteEmployer: (id: string) => void;
-  onUpdateInterview: (employerId: string, interview: Interview) => void;
-  onEditCard: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function EmployerCard({
   employer,
-  onAddInterview,
-  onDeleteEmployer,
-  onUpdateInterview,
-                                       onEditCard,
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const setEditingEmployerId = (id:Employer['id'])=>{dispatch(valuesSlice.actions.setEditingEmployerId(id))}
 
   return (
     <div
@@ -72,8 +69,6 @@ export default function EmployerCard({
               data-testid="interviewList"
             interviews={employer.interviews}
             employerId={employer.id}
-            onAddInterview={onAddInterview}
-            onUpdateInterview={onUpdateInterview}
           />
 
           <div className="mt-4 flex justify-end gap-2">
@@ -81,7 +76,7 @@ export default function EmployerCard({
             <button
                 data-testid="editEmployer"
                 onClick={() => {
-                  onEditCard(employer.id)
+                  setEditingEmployerId(employer.id)
                 }}
                 className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
             >
@@ -89,7 +84,9 @@ export default function EmployerCard({
             </button>
             <button
                 data-testid="deleteEmployer"
-                onClick={() => onDeleteEmployer(employer.id)}
+                onClick={() => {
+                  dispatch(employersSlice.actions.deleteEmployer(employer.id))
+                }}
                 className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
             >
               Удалить

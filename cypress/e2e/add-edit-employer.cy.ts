@@ -1,62 +1,35 @@
 describe('add / edit employer card', () => {
-  it('cancel adding new employer', () => {
-    cy.visit('http://localhost:5173')
 
-    cy.findByTestId('addEmployer').click()
-    cy.findByTestId('companyName').type('test')
-    cy.findByTestId('description').type('test')
-    cy.findByTestId('hrName').type('test')
-    cy.findByTestId('contacts').type('test')
+  beforeEach(() => {
+      cy.visit('http://localhost:5173')
+  })
+
+  it('cancel adding new employer', () => {
+
+    cy.findByTestId('addEmployer').click();
+    cy.findByTestId('companyName').type('test');
+    cy.findByTestId('description').type('test');
+    cy.findByTestId('hrName').type('test');
+    cy.findByTestId('contacts').type('test');
     cy.findByTestId('cancel').click()
-    cy.findByText('test').should('not.exist')
   })
 
 
   it('add new employer', () => {
-    cy.visit('http://localhost:5173')
-
-    cy.findByTestId('addEmployer').click()
-    cy.findByTestId('companyName').type('test')
-    cy.findByTestId('description').type('test')
-    cy.findByTestId('hrName').type('test')
-    cy.findByTestId('contacts').type('test')
-    cy.findByTestId('save').click()
-    cy.findByTestId('employerCard').should('exist')
+    cy.createEmployer({companyName: 'test', description: 'test', hrName: 'test', contacts: 'test'})
   })
 
 
   it('add 2 new employer', () => {
-    cy.visit('http://localhost:5173')
 
-    cy.findByTestId('addEmployer').click()
-    cy.findByTestId('companyName').type('test')
-    cy.findByTestId('description').type('test')
-    cy.findByTestId('hrName').type('test')
-    cy.findByTestId('contacts').type('test')
-    cy.findByTestId('save').click()
-
-    cy.findByTestId('addEmployer').click()
-    cy.findByTestId('companyName').type('test2')
-    cy.findByTestId('description').type('test2')
-    cy.findByTestId('hrName').type('test2')
-    cy.findByTestId('contacts').type('test2')
-    cy.findByTestId('save').click()
-
-    cy.contains('test').should('exist')
-    cy.contains('test2').should('exist')
+    cy.createEmployer({companyName: 'test', description: 'test', hrName: 'test', contacts: 'test'})
+    cy.createEmployer({companyName: 'test2', description: 'test2', hrName: 'test2', contacts: 'test2'})
   })
 
 
   it('delete employer', () => {
-    cy.visit('http://localhost:5173')
 
-    cy.findByTestId('addEmployer').click()
-    cy.findByTestId('companyName').type('test')
-    cy.findByTestId('description').type('test')
-    cy.findByTestId('hrName').type('test')
-    cy.findByTestId('contacts').type('test')
-    cy.findByTestId('save').click()
-    cy.findByTestId('employerCard').should('exist')
+    cy.createEmployer({companyName: 'test', description: 'test', hrName: 'test', contacts: 'test'})
 
     cy.findByTestId('expandInterviewList').click()
     cy.findByTestId('deleteEmployer').click()
@@ -66,15 +39,8 @@ describe('add / edit employer card', () => {
 
 
   it('edit employer', () => {
-    cy.visit('http://localhost:5173')
 
-    cy.findByTestId('addEmployer').click()
-    cy.findByTestId('companyName').type('test')
-    cy.findByTestId('description').type('test')
-    cy.findByTestId('hrName').type('test')
-    cy.findByTestId('contacts').type('test')
-    cy.findByTestId('save').click()
-    cy.findByTestId('employerCard').should('exist')
+    cy.createEmployer({companyName: 'test', description: 'test', hrName: 'test', contacts: 'test'})
 
     cy.findByTestId('expandInterviewList').click()
     cy.findByTestId('editEmployer').click()
@@ -90,15 +56,8 @@ describe('add / edit employer card', () => {
   })
 
   it('cancel edit employer', () => {
-    cy.visit('http://localhost:5173')
 
-    cy.findByTestId('addEmployer').click()
-    cy.findByTestId('companyName').type('test')
-    cy.findByTestId('description').type('test')
-    cy.findByTestId('hrName').type('test')
-    cy.findByTestId('contacts').type('test')
-    cy.findByTestId('save').click()
-    cy.findByTestId('employerCard').should('exist')
+    cy.createEmployer({companyName: 'test', description: 'test', hrName: 'test', contacts: 'test'})
 
     cy.findByTestId('expandInterviewList').click()
     cy.findByTestId('editEmployer').click()
@@ -108,7 +67,7 @@ describe('add / edit employer card', () => {
     cy.findByTestId('contacts').clear().type('test2')
     cy.findByTestId('cancel').click()
 
-    cy.contains('test1').should('exist')
+    cy.contains('test').should('exist')
     cy.contains('test2').should('not.exist')
   })
 

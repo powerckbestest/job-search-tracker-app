@@ -1,57 +1,69 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { CalendarDays, Plus, Edit2, Save, X } from "lucide-react";
 import { Interview } from "../types";
+import { valuesSlice} from "../model/values.ts";
+import {useSelector} from "react-redux";
+import {RootState, useAppDispatch} from "../model/store.ts";
+import {employersSelectors, employersSlice} from "../model/employers.ts";
 
 interface Props {
   interviews: Interview[];
   employerId: string;
-  onAddInterview: (employerId: string, interview: Interview) => void;
-  onUpdateInterview: (employerId: string, interview: Interview) => void;
 }
 
+const newInterviewTemp: Interview = {
+  id: "",
+  date: "",
+  notes: "",
+  status: "pending" as const,
+};
+
 export default function InterviewList({
-  interviews,
-  employerId,
-  onAddInterview,
-  onUpdateInterview,
+  interviews, employerId
 }: Props) {
-  const [isAdding, setIsAdding] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingInterview, setEditingInterview] = useState<Interview | null>(
+  const [isInterviewAdding, setIsInterviewAdding] = useState<boolean>(false);
+  const [currentInterviewId, setCurrentInterviewId] = useState<string | null>(null);
+  const [currentInterview, setCurrentInterview] = useState<Interview | null>(
     null
   );
-  const [newInterview, setNewInterview] = useState({
-    date: "",
-    notes: "",
-    status: "pending" as const,
-  });
+
+
+
+  const dispatch = useAppDispatch();
+  const currentEmployer = useSelector((state:RootState)=>employersSelectors.selectById(state,employerId))
+
+  const [newInterview, setNewInterview] = useState<Interview>(newInterviewTemp);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAddInterview(employerId, {
-      ...newInterview,
-      id: Date.now().toString(),
-    });
-    setIsAdding(false);
-    setNewInterview({ date: "", notes: "", status: "pending" });
+    const newInterviewWithId = {...newInterview, id: Date.now().toString()};
+    const updatedInterviews = [...currentEmployer?.interviews || [], newInterviewWithId];
+    dispatch(employersSlice.actions.updateEmployer({id:employerId,changes:{interviews:updatedInterviews}}));
+
+    setIsInterviewAdding(false);
+    setNewInterview(newInterviewTemp);
   };
 
   const handleEdit = (interview: Interview) => {
-    setEditingId(interview.id);
-    setEditingInterview({ ...interview });
+    setCurrentInterviewId(interview.id);
+    setCurrentInterview({ ...interview });
   };
 
   const handleSaveEdit = () => {
-    if (editingInterview) {
-      onUpdateInterview(employerId, editingInterview);
-      setEditingId(null);
-      setEditingInterview(null);
+    if (currentInterview) {
+      console.log('currentInterview save edit',currentInterview)
+      const filteredInterviews = currentEmployer?.interviews?.filter((interview:Interview)=>interview.id !== currentInterviewId) || [];
+      const newInterviews = [...filteredInterviews, currentInterview];
+      dispatch(employersSlice.actions.updateEmployer({id:employerId,changes:{interviews:newInterviews}}));
+      dispatch(valuesSlice.actions.resetEditingEmployerId());
+
+      setCurrentInterview(null);
     }
   };
 
   const handleCancelEdit = () => {
-    setEditingId(null);
-    setEditingInterview(null);
+    setCurrentInterviewId(null);
+    setCurrentInterview(null);
   };
 
   const getStatusColor = (status: Interview["status"]) => {
@@ -86,7 +98,7 @@ export default function InterviewList({
         <h4 className="font-medium text-gray-700">Собеседования</h4>
         <button
             data-testid='addInterview'
-          onClick={() => setIsAdding(true)}
+          onClick={() => setIsInterviewAdding(true)}
           className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
         >
           <Plus size={16} />
@@ -94,7 +106,7 @@ export default function InterviewList({
         </button>
       </div>
 
-      {isAdding && (
+      {isInterviewAdding && (
         <form
           onSubmit={handleSubmit}
           className="space-y-3 p-3 bg-gray-50 rounded-md"
@@ -127,11 +139,13 @@ export default function InterviewList({
             <select
               data-testid='selectInterviewStatus'
               value={newInterview.status}
-              onChange={(e) =>
+              onChange={(e) => {
+                console.log('newInterview',newInterview)
                 setNewInterview({
                   ...newInterview,
                   status: e.target.value as Interview["status"],
-                })
+                });
+              }
               }
               className="w-full px-3 py-2 border rounded-md"
             >
@@ -145,7 +159,7 @@ export default function InterviewList({
             <button
                 data-testid="cancelInterviewEdit"
               type="button"
-              onClick={() => setIsAdding(false)}
+              onClick={() => setIsInterviewAdding(false)}
               className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md"
             >
               Отмена
@@ -164,27 +178,30 @@ export default function InterviewList({
       <div className="space-y-2">
         {interviews.map((interview) => (
           <div key={interview.id} className="p-3 bg-gray-50 rounded-md">
-            {editingId === interview.id && editingInterview ? (
+            {currentInterviewId === interview.id && currentInterview ? (
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <input
                     type="datetime-local"
-                    value={editingInterview.date}
+                    value={currentInterview.date}
                     onChange={(e) =>
-                      setEditingInterview({
-                        ...editingInterview,
+                      setCurrentInterview({
+                        ...currentInterview,
                         date: e.target.value,
                       })
                     }
                     className="flex-1 px-3 py-2 border rounded-md text-sm"
                   />
                   <select
-                    value={editingInterview.status}
-                    onChange={(e) =>
-                      setEditingInterview({
-                        ...editingInterview,
+                      data-testid="selectInterviewStatus"
+                    value={currentInterview.status}
+                    onChange={(e) => {
+                      console.log('currentInterview',currentInterview)
+                      setCurrentInterview({
+                        ...currentInterview,
                         status: e.target.value as Interview["status"],
-                      })
+                      });
+                    }
                     }
                     className="px-3 py-2 border rounded-md text-sm"
                   >
@@ -195,10 +212,10 @@ export default function InterviewList({
                   </select>
                 </div>
                 <textarea
-                  value={editingInterview.notes}
+                  value={currentInterview.notes}
                   onChange={(e) =>
-                    setEditingInterview({
-                      ...editingInterview,
+                    setCurrentInterview({
+                      ...currentInterview,
                       notes: e.target.value,
                     })
                   }
@@ -208,6 +225,7 @@ export default function InterviewList({
                 />
                 <div className="flex justify-end gap-2">
                   <button
+                      data-testid="cancelInterviewEdit"
                     onClick={handleCancelEdit}
                     className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 hover:bg-gray-200 rounded-md"
                   >
@@ -215,6 +233,7 @@ export default function InterviewList({
                     Отмена
                   </button>
                   <button
+                      data-testid="saveInterviewEdit"
                     onClick={handleSaveEdit}
                     className="flex items-center gap-1 px-3 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded-md"
                   >
@@ -241,6 +260,7 @@ export default function InterviewList({
                       {getStatusText(interview.status)}
                     </span>
                     <button
+                        data-testid="editInterview"
                       onClick={() => handleEdit(interview)}
                       className="p-1 hover:bg-gray-200 rounded-full transition-colors"
                       title="Редактировать"

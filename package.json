@@ -14,9 +14,12 @@
     "cy:run:component": "cypress run --component"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.3.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
+    "redux-persist": "^6.0.0",
     "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
@@ -26,6 +29,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.18",
+    "cy-verify-downloads": "^0.2.6",
     "cypress": "^13.15.2",
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",

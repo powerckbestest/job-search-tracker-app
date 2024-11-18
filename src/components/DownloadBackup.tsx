@@ -1,19 +1,20 @@
-import {useLocalStorage} from "usehooks-ts";
-import {Employer} from "../types.ts";
 import {HardDriveDownload} from "lucide-react";
+import {persistor} from "../model/store.ts";
 
 
 export const DownloadBackup = () => {
 
-    const [backupData] = useLocalStorage<Employer[]>("jobSearchEmployers", []);
 
     const downloadBackup = () => {
-        const blob = new Blob([JSON.stringify(backupData)], {type: 'application/json'});
+        persistor.pause()
+        const backupData = localStorage.getItem('persist:job-search-tracker-app-state') || "{}";
+        const blob = new Blob([backupData], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'job-search-tracker-backup.json';
+        link.download =`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} job-search-tracker-backup.json`;
         link.click();
+        persistor.persist()
     }
 
     return (
