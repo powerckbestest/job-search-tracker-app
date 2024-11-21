@@ -1,16 +1,20 @@
+import { Employer } from './types';
 import { useEffect } from 'react';
-import { Employer } from '@/types.ts';
-import EmployerCard from '@/components/employer/EmployerCard.tsx';
-import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
 import { useLocalStorage } from 'usehooks-ts';
 import { useAppDispatch } from '@/model/store.ts';
 import { useSelector } from 'react-redux';
+import EmployerCard from '@/components/employer/EmployerCard.tsx';
 import {
   selectValueEditingEmployerId,
   selectValueIsAdding,
 } from './model/values.ts';
 import { Toolbar } from '@/components/layout/Toolbar.tsx';
 import { employersSelectors, employersSlice } from '@/model/employers.ts';
+
+import { MyCalendar } from './components/calendar/Calendar.tsx';
+import { EditEmployerCard } from './components/employer/EditEmployerCard.tsx';
+
+
 
 function App() {
   const dispatch = useAppDispatch();
@@ -36,6 +40,8 @@ function App() {
         <Toolbar />
 
         {isAdding && <EditEmployerCard />}
+
+        <MyCalendar />
 
         <div className="space-y-4">
           {employers.map((employer) => {
