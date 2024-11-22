@@ -1,6 +1,6 @@
 // https://redux-toolkit.js.org/api/createEntityAdapter
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { Employer } from '../types.ts';
+import { createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
+import { Employer, Interview } from '../types.ts';
 import { RootState } from './store.ts';
 
 const employersAdapter = createEntityAdapter<Employer, Employer['id']>({
@@ -24,3 +24,31 @@ export const employersSlice = createSlice({
 export const employersSelectors = employersAdapter.getSelectors(
   (state: RootState) => state.employers
 );
+
+
+export const selectInterviewsByEmployerId = (id: Employer['id'])=> createSelector(
+  (state:RootState):Employer => employersSelectors.selectById(state, id),
+  (s ) => s.interviews)
+
+export type CalendarInterview = {
+  companyName: string;
+} & Interview
+
+export const selectCalendarInterviews = createSelector(employersSelectors.selectAll,
+  (s) => s.reduce((acc:CalendarInterview[], company:Employer): CalendarInterview[] => {
+    const interviews = company.interviews.map(interview => ({
+      ...interview,
+      companyName: company.companyName
+    }));
+    return [...acc, ...interviews];
+  }, [])
+);
+
+export const selectInterviews = createSelector(
+  employersSelectors.selectAll,
+  (s) => s.flatMap((company:Employer) => company.interviews))
+
+export const selectInterviewsInDateRange = (dateFrom: Date, dateTo: Date) => createSelector(
+  selectInterviews,
+  (s) => s.filter((interview) => new Date(interview.date) >= dateFrom && new Date(interview.date) <= dateTo)
+)
