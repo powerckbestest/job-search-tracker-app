@@ -12,6 +12,11 @@ import InterviewList from './InterviewList';
 import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
 import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { Collapsible } from '@radix-ui/react-collapsible';
+import {
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible.tsx';
 
 interface Props {
   employer: Employer;
@@ -21,7 +26,9 @@ export default function EmployerCard({ employer }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div
+    <Collapsible
+      open={isExpanded}
+      onOpenChange={setIsExpanded}
       data-testid="employerCard"
       className="mb-4 rounded-lg bg-white p-6 shadow-md transition-all hover:shadow-lg"
     >
@@ -52,18 +59,19 @@ export default function EmployerCard({ employer }: Props) {
             </div>
           </div>
         </div>
-
-        <Button
-          variant="ghost"
-          data-testid="expandInterviewList"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="rounded-full p-2 transition-colors hover:bg-gray-100"
-        >
-          {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-        </Button>
+        <CollapsibleTrigger>
+          <Button
+            variant="ghost"
+            data-testid="expandInterviewList"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="rounded-md p-2 transition-colors hover:bg-gray-100"
+          >
+            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </Button>
+        </CollapsibleTrigger>
       </div>
 
-      {isExpanded && (
+      <CollapsibleContent>
         <div className="mt-4 border-t pt-4">
           <InterviewList
             data-testid="interviewList"
@@ -71,7 +79,7 @@ export default function EmployerCard({ employer }: Props) {
             employerId={employer.id}
           />
         </div>
-      )}
-    </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }
