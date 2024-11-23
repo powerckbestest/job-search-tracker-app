@@ -4,6 +4,7 @@ import { RootState, useAppDispatch } from '../model/store.ts';
 import { selectValueEditingEmployerId, valuesSlice } from '../model/values.ts';
 import { employersSelectors, employersSlice } from '../model/employers.ts';
 import { useSelector } from 'react-redux';
+import { Button } from '@/components/ui/button.tsx';
 
 const newEmployerTemp: Employer = {
   companyName: '',
@@ -124,21 +125,22 @@ export const EditEmployerCard: FC = () => {
           />
         </div>
         <div className="flex justify-end gap-2">
-          <button
+          <Button
+            variant="ghost"
             data-testid="cancel"
             type="button"
             onClick={handleCancelEditEmployer}
             className="rounded-md px-4 py-2 text-gray-600 hover:bg-gray-100"
           >
             Отмена
-          </button>
-          <button
+          </Button>
+          <Button
             data-testid="save"
             type="submit"
             className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           >
             Сохранить
-          </button>
+          </Button>
         </div>
       </form>
     </div>

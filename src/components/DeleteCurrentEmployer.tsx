@@ -1,8 +1,9 @@
 import { Employer } from '../types.ts';
-import { FC, useState } from 'react';
+import  { FC, useState } from 'react';
 import { useAppDispatch } from '../model/store.ts';
 import { employersSlice } from '../model/employers.ts';
 import { Trash2, Ban } from 'lucide-react';
+import { Button } from '@/components/ui/button.tsx';
 type DeleteCurrentEmployerProps = {
   employerId: Employer['id'];
 };
@@ -14,7 +15,8 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
 
   return (
     <>
-      <button
+      <Button
+        variant="ghost"
         data-testid="deleteEmployer"
         onClick={() => {
           setIsOpen(true);
@@ -22,7 +24,7 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
         className="rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
       >
         <Trash2 />
-      </button>
+      </Button>
       <dialog
         className="rounded-lg border-2 border-gray-200 bg-white shadow-lg"
         open={isOpen}
@@ -32,7 +34,7 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
             Вы уверены, что хотите удалить этого работодателя?
           </h3>
           <div className="direction-row mt-2 flex items-center justify-between gap-2">
-            <button
+            <Button
               data-testid="confirm-cancel"
               onClick={() => {
                 setIsOpen(false);
@@ -41,8 +43,8 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
             >
               <Ban />
               Отмена
-            </button>
-            <button
+            </Button>
+            <Button
               data-testid="confirm-delete"
               onClick={() => {
                 dispatch(employersSlice.actions.deleteEmployer(employerId));
@@ -51,7 +53,7 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
               className="direction-row flex items-center gap-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white transition-colors hover:bg-red-700"
             >
               <Trash2 /> Удалить
-            </button>
+            </Button>
           </div>
         </div>
       </dialog>

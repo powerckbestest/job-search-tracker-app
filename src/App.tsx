@@ -14,6 +14,7 @@ import {
   selectValueIsAdding,
   valuesSlice,
 } from './model/values.ts';
+import { Button } from '@/components/ui/button.tsx';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -48,14 +49,14 @@ function App() {
             </div>
             <UploadBackup />
             <DownloadBackup />
-            <button
+            <Button
               data-testid="addEmployer"
               onClick={() => setIsAdding(true)}
               className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
             >
               <PlusCircle size={20} />
               Добавить работодателя
-            </button>
+            </Button>
           </div>
         </header>
 

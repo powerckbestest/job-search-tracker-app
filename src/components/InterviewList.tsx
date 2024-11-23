@@ -5,6 +5,7 @@ import { valuesSlice } from '../model/values.ts';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../model/store.ts';
 import { employersSelectors, employersSlice } from '../model/employers.ts';
+import { Button } from '@/components/ui/button.tsx';
 
 interface Props {
   interviews: Interview[];
@@ -112,14 +113,15 @@ export default function InterviewList({ interviews, employerId }: Props) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h4 className="font-medium text-gray-700">Собеседования</h4>
-        <button
+        <Button
+          variant="ghost"
           data-testid="addInterview"
           onClick={() => setIsInterviewAdding(true)}
           className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
         >
           <Plus size={16} />
           Добавить
-        </button>
+        </Button>
       </div>
 
       {isInterviewAdding && (
@@ -171,21 +173,24 @@ export default function InterviewList({ interviews, employerId }: Props) {
             </select>
           </div>
           <div className="flex justify-end gap-2">
-            <button
+            <Button
+              variant="ghost"
               data-testid="cancelInterviewEdit"
               type="button"
               onClick={() => setIsInterviewAdding(false)}
-              className="rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-100"
+              className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-200"
             >
-              Отмена
-            </button>
-            <button
+              <X size={14} />Отмена
+            </Button>
+            <Button
               data-testid="saveInterviewEdit"
               type="submit"
-              className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
+              className="flex items-center gap-1 rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
             >
+
+              <Save size={14} />
               Сохранить
-            </button>
+            </Button>
           </div>
         </form>
       )}
@@ -238,22 +243,23 @@ export default function InterviewList({ interviews, employerId }: Props) {
                   placeholder="Заметки о собеседовании, результаты, впечатления..."
                 />
                 <div className="flex justify-end gap-2">
-                  <button
+                  <Button
+                    variant="ghost"
                     data-testid="cancelInterviewEdit"
                     onClick={handleCancelEdit}
                     className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-200"
                   >
                     <X size={14} />
                     Отмена
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     data-testid="saveInterviewEdit"
                     onClick={handleSaveEdit}
                     className="flex items-center gap-1 rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
                   >
                     <Save size={14} />
                     Сохранить
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (

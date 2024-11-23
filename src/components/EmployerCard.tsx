@@ -11,6 +11,7 @@ import { Employer } from '../types';
 import InterviewList from './InterviewList';
 import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
 import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
+import { Button } from '@/components/ui/button.tsx';
 
 interface Props {
   employer: Employer;
@@ -52,13 +53,14 @@ export default function EmployerCard({ employer }: Props) {
           </div>
         </div>
 
-        <button
+        <Button
+          variant="ghost"
           data-testid="expandInterviewList"
           onClick={() => setIsExpanded(!isExpanded)}
           className="rounded-full p-2 transition-colors hover:bg-gray-100"
         >
           {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-        </button>
+        </Button>
       </div>
 
       {isExpanded && (
