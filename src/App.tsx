@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { PlusCircle, Briefcase } from 'lucide-react';
-import { Employer } from './types';
-import EmployerCard from './components/EmployerCard';
-import { EditEmployerCard } from './components/EditEmployerCard.tsx';
+import { Employer } from '@/types.ts';
+import EmployerCard from "@/components/EmployerCard";
+import { EditEmployerCard } from '@/components/EditEmployerCard.tsx';
 import { useLocalStorage } from 'usehooks-ts';
-import { DownloadBackup } from './components/DownloadBackup.tsx';
-import { UploadBackup } from './components/UploadBackup.tsx';
-import { employersSelectors, employersSlice } from './model/employers.ts';
-import { useAppDispatch } from './model/store.ts';
+import { DownloadBackup } from '@/components/DownloadBackup.tsx';
+import { UploadBackup } from '@/components/UploadBackup.tsx';
+import { employersSelectors, employersSlice } from '@/model/employers.ts';
+import { useAppDispatch } from '@/model/store.ts';
 import { useSelector } from 'react-redux';
 import {
   selectValueEditingEmployerId,
