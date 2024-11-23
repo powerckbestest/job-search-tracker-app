@@ -32,15 +32,28 @@ export const MyCalendar = () => {
 
   const eventPropGetter = useCallback(
     (event, start, end, isSelected) => ({
+      ...( {
+        style: {
+          backgroundColor: 'rgb(239, 246, 255)',
+          color: 'rgb(37, 99, 235)',
+        },
+      }),
       ...(event.resource.status == 'rejected' && {
         style: {
-          backgroundColor: 'red',
+          backgroundColor: 'rgb(254, 242, 242)',
+          color: 'rgb(220, 38, 38)',
         },
       }),
       ...(event.resource.status == 'completed' && {
         style: {
-          backgroundColor: 'yellow',
-          color: 'black',
+          backgroundColor: 'rgb(254, 252, 232)',
+          color: 'rgb(202, 138, 4)',
+        },
+      }),
+      ...(event.resource.status == 'accepted' && {
+        style: {
+          backgroundColor: 'rgb(240, 253, 244)',
+          color: 'rgb(254, 252, 232)',
         },
       }),
     }),
