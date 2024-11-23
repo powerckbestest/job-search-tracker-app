@@ -59,12 +59,12 @@ function App() {
           </div>
         </header>
 
-        {(isAdding || editingCardId) && <EditEmployerCard />}
+        {(isAdding) && <EditEmployerCard />}
 
         <div className="space-y-4">
           {employers.map((employer) => {
             if (editingCardId === employer.id) {
-              return <></>;
+              return <EditEmployerCard />;
             }
 
             return <EmployerCard key={employer.id} employer={employer} />;
