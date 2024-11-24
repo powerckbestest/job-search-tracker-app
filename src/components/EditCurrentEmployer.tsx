@@ -15,6 +15,7 @@ export const EditCurrentEmployer: FC<EditCurrentEmployerProps> = ({
 
   return (
     <Button
+      size="icon"
       data-testid="editEmployer"
       onClick={() => {
         dispatch(valuesSlice.actions.setIsAdding(false));

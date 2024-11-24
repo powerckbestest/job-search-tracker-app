@@ -3,7 +3,6 @@ import { FC, useState } from 'react';
 import { RootState, useAppDispatch } from '../model/store.ts';
 import { employersSelectors, employersSlice } from '../model/employers.ts';
 import { Trash2, Ban } from 'lucide-react';
-import { Button } from '@/components/ui/button.tsx';
 
 import {
   AlertDialog,
@@ -32,17 +31,14 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button
-          variant="ghost"
-          data-testid="deleteEmployer"
-          onClick={() => {
-            setIsOpen(true);
-          }}
-          className="rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
-        >
-          <Trash2 />
-        </Button>
+      <AlertDialogTrigger
+        data-testid="deleteEmployer"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+        className="h-10 w-10 rounded-md px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-50"
+      >
+        <Trash2 size={16} />
       </AlertDialogTrigger>
       <AlertDialogContent className="rounded-lg border-2 border-gray-200 bg-white shadow-lg">
         <AlertDialogHeader>

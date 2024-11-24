@@ -11,7 +11,6 @@ import { Employer } from '../types';
 import InterviewList from './InterviewList';
 import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
 import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
-import { Button } from '@/components/ui/button.tsx';
 import { Collapsible } from '@radix-ui/react-collapsible';
 import {
   CollapsibleContent,
@@ -59,15 +58,12 @@ export default function EmployerCard({ employer }: Props) {
             </div>
           </div>
         </div>
-        <CollapsibleTrigger>
-          <Button
-            variant="ghost"
-            data-testid="expandInterviewList"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="rounded-md p-2 transition-colors hover:bg-gray-100"
-          >
-            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </Button>
+        <CollapsibleTrigger
+          data-testid="expandInterviewList"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="hover:bg-gray-100> rounded-md p-2 transition-colors"
+        >
+          {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </CollapsibleTrigger>
       </div>
       <CollapsibleContent>

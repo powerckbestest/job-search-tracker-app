@@ -118,7 +118,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
           variant="ghost"
           data-testid="addInterview"
           onClick={() => setIsInterviewAdding(true)}
-          className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
+          className="text-sm"
         >
           <Plus size={16} />
           Добавить

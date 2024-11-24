@@ -1,4 +1,4 @@
-import { Settings } from '@/components/ui/Settings.tsx';
+import { Settings } from '@/components/Settings.tsx';
 import { AddEmployer } from '@/components/AddEmployer.tsx';
 import { AppName } from '@/components/AppName.tsx';
 

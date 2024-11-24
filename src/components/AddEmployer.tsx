@@ -10,11 +10,7 @@ export const AddEmployer = () => {
   };
   return (
     <div>
-      <Button
-        data-testid="addEmployer"
-        onClick={() => setIsAdding(true)}
-        className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-      >
+      <Button data-testid="addEmployer" onClick={() => setIsAdding(true)}>
         <PlusCircle size={20} />
         Добавить работодателя
       </Button>
