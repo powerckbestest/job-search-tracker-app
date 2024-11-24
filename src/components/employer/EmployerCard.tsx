@@ -7,8 +7,8 @@ import {
   Phone,
   User,
 } from 'lucide-react';
-import { Employer } from '../types';
-import InterviewList from './InterviewList';
+import { Employer } from '../../types.ts';
+import InterviewList from './interview/InterviewList.tsx';
 import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
 import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
 import { Collapsible } from '@radix-ui/react-collapsible';

@@ -1,7 +1,7 @@
-import { Employer } from '../types.ts';
+import { Employer } from '../../types.ts';
 import { FC, useState } from 'react';
-import { RootState, useAppDispatch } from '../model/store.ts';
-import { employersSelectors, employersSlice } from '../model/employers.ts';
+import { RootState, useAppDispatch } from '../../model/store.ts';
+import { employersSelectors, employersSlice } from '../../model/employers.ts';
 import { Trash2, Ban } from 'lucide-react';
 
 import {
@@ -14,7 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/components/ui/alert-dialog.tsx';
 import { useSelector } from 'react-redux';
 
 type DeleteCurrentEmployerProps = {

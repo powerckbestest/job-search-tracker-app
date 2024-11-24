@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Employer } from '@/types.ts';
-import EmployerCard from '@/components/EmployerCard';
-import { EditEmployerCard } from '@/components/EditEmployerCard.tsx';
+import EmployerCard from '@/components/employer/EmployerCard.tsx';
+import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
 import { useLocalStorage } from 'usehooks-ts';
 import { useAppDispatch } from '@/model/store.ts';
 import { useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import {
   selectValueEditingEmployerId,
   selectValueIsAdding,
 } from './model/values.ts';
-import { Toolbar } from '@/components/Toolbar.tsx';
+import { Toolbar } from '@/components/layout/Toolbar.tsx';
 import { employersSelectors, employersSlice } from '@/model/employers.ts';
 
 function App() {

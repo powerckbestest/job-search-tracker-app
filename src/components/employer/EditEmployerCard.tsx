@@ -1,8 +1,11 @@
 import React, { FC, useState } from 'react';
-import { Employer } from '../types.ts';
-import { RootState, useAppDispatch } from '../model/store.ts';
-import { selectValueEditingEmployerId, valuesSlice } from '../model/values.ts';
-import { employersSelectors, employersSlice } from '../model/employers.ts';
+import { Employer } from '../../types.ts';
+import { RootState, useAppDispatch } from '../../model/store.ts';
+import {
+  selectValueEditingEmployerId,
+  valuesSlice,
+} from '../../model/values.ts';
+import { employersSelectors, employersSlice } from '../../model/employers.ts';
 import { useSelector } from 'react-redux';
 import { Button } from '@/components/ui/button.tsx';
 

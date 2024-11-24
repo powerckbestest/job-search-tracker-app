@@ -1,7 +1,7 @@
 import { HardDriveDownload } from 'lucide-react';
-import { persistor } from '../model/store.ts';
+import { persistor } from '../../model/store.ts';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button.tsx';
 
 export const DownloadBackup = () => {
   const downloadBackup = () => {

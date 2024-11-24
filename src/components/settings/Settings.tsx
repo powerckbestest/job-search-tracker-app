@@ -1,12 +1,12 @@
 import { Settings as SettingsIcon } from 'lucide-react';
-import { UploadBackup } from '@/components/UploadBackup.tsx';
-import { DownloadBackup } from '@/components/DownloadBackup.tsx';
+import { UploadBackup } from '@/components/settings/UploadBackup.tsx';
+import { DownloadBackup } from '@/components/settings/DownloadBackup.tsx';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu.tsx';
+} from '../ui/dropdown-menu.tsx';
 import { Button } from '@/components/ui/button.tsx';
 
 export const Settings = () => {

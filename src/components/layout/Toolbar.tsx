@@ -1,6 +1,6 @@
-import { Settings } from '@/components/Settings.tsx';
-import { AddEmployer } from '@/components/AddEmployer.tsx';
-import { AppName } from '@/components/AppName.tsx';
+import { Settings } from '@/components/settings/Settings.tsx';
+import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
+import { AppName } from '@/components/layout/AppName.tsx';
 
 export const Toolbar = () => {
   return (

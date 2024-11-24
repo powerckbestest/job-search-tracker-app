@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { useAppDispatch } from '../model/store.ts';
-import { valuesSlice } from '../model/values.ts';
+import { useAppDispatch } from '../../model/store.ts';
+import { valuesSlice } from '../../model/values.ts';
 import { Pencil } from 'lucide-react';
-import { Employer } from '../types.ts';
+import { Employer } from '../../types.ts';
 import { Button } from '@/components/ui/button.tsx';
 
 type EditCurrentEmployerProps = {

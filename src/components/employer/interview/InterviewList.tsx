@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { CalendarDays, Plus, Edit2, Save, X } from 'lucide-react';
-import { Interview } from '../types';
-import { valuesSlice } from '../model/values.ts';
+import { Interview } from '../../../types.ts';
+import { valuesSlice } from '../../../model/values.ts';
 import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../model/store.ts';
-import { employersSelectors, employersSlice } from '../model/employers.ts';
+import { RootState, useAppDispatch } from '../../../model/store.ts';
+import {
+  employersSelectors,
+  employersSlice,
+} from '../../../model/employers.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
 
