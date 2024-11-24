@@ -7,7 +7,7 @@ import {
   Phone,
   User,
 } from 'lucide-react';
-import { Employer } from '../../types.ts';
+import { Employer } from '@/types.ts';
 import InterviewList from './interview/InterviewList.tsx';
 import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
 import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
