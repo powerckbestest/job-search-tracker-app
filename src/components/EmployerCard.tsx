@@ -70,7 +70,6 @@ export default function EmployerCard({ employer }: Props) {
           </Button>
         </CollapsibleTrigger>
       </div>
-
       <CollapsibleContent>
         <div className="mt-4 border-t pt-4">
           <InterviewList
