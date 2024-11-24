@@ -1,20 +1,16 @@
 import { useEffect } from 'react';
-import { PlusCircle, Briefcase } from 'lucide-react';
 import { Employer } from '@/types.ts';
-import EmployerCard from "@/components/EmployerCard";
+import EmployerCard from '@/components/EmployerCard';
 import { EditEmployerCard } from '@/components/EditEmployerCard.tsx';
 import { useLocalStorage } from 'usehooks-ts';
-import { DownloadBackup } from '@/components/DownloadBackup.tsx';
-import { UploadBackup } from '@/components/UploadBackup.tsx';
-import { employersSelectors, employersSlice } from '@/model/employers.ts';
 import { useAppDispatch } from '@/model/store.ts';
 import { useSelector } from 'react-redux';
 import {
   selectValueEditingEmployerId,
   selectValueIsAdding,
-  valuesSlice,
 } from './model/values.ts';
-import { Button } from '@/components/ui/button.tsx';
+import { Toolbar } from '@/components/Toolbar.tsx';
+import { employersSelectors, employersSlice } from '@/model/employers.ts';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -27,10 +23,6 @@ function App() {
   const isAdding = useSelector(selectValueIsAdding);
   const editingCardId = useSelector(selectValueEditingEmployerId);
 
-  const setIsAdding = (isAdding: boolean) => {
-    dispatch(valuesSlice.actions.setIsAdding(isAdding));
-  };
-
   useEffect(() => {
     if (localStorageEmployers.length) {
       dispatch(employersSlice.actions.setEmployers(localStorageEmployers));
@@ -41,33 +33,15 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="mx-auto max-w-4xl p-6">
-        <header className="mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Briefcase className="text-blue-600" size={32} />
-              <h1 className="text-2xl font-bold text-gray-800">Поиск работы</h1>
-            </div>
-            <UploadBackup />
-            <DownloadBackup />
-            <Button
-              data-testid="addEmployer"
-              onClick={() => setIsAdding(true)}
-              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-            >
-              <PlusCircle size={20} />
-              Добавить работодателя
-            </Button>
-          </div>
-        </header>
+        <Toolbar />
 
-        {(isAdding) && <EditEmployerCard />}
+        {isAdding && <EditEmployerCard />}
 
         <div className="space-y-4">
           {employers.map((employer) => {
             if (editingCardId === employer.id) {
               return <EditEmployerCard />;
             }
-
             return <EmployerCard key={employer.id} employer={employer} />;
           })}
 

@@ -33,11 +33,7 @@ export const UploadBackup = () => {
 
   return (
     <div>
-      <Button
-        aria-label="Upload backup"
-        className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-        onClick={uploadBackup}
-      >
+      <Button variant="ghost" aria-label="Upload backup" onClick={uploadBackup}>
         <HardDriveUpload />
         Upload backup
       </Button>
