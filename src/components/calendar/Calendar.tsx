@@ -1,10 +1,10 @@
-import { Calendar, dayjsLocalizer, Views,Event as CalendarEvent } from 'react-big-calendar';
+import { Calendar, dayjsLocalizer, Views, Event as CalendarEvent } from 'react-big-calendar';
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 import timezone from 'dayjs/plugin/timezone'
 import { useCallback, useMemo } from 'react';
-import { useAppSelector } from '../../model/store.ts';
-import { CalendarInterview, selectCalendarInterviews} from '../../model/employers.ts';
+import { useAppSelector } from '@/model/store.ts';
+import { CalendarInterview, selectCalendarInterviews} from '@/model/employers.ts';
 
 dayjs.extend(timezone)
 dayjs.locale('ru') // Установка русской локали
@@ -20,9 +20,12 @@ const convertInterviewToEvent = (interview:CalendarInterview ): CalendarEvent =>
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+const locilizeDates  = (date, culture, localizer) => localizer.format(date, 'dd DD/MM', culture)
+
+
 const djLocalizer = dayjsLocalizer(dayjs)
-
-
 
 export const MyCalendar = () => {
 
@@ -31,8 +34,8 @@ export const MyCalendar = () => {
 
 
   const eventPropGetter = useCallback(
-    (event, start, end, isSelected) => ({
-      ...( {
+    (event:CalendarEvent) => ({
+      ...( event.resource.status == 'pending' && {
         style: {
           backgroundColor: 'rgb(239, 246, 255)',
           color: 'rgb(37, 99, 235)',
@@ -59,15 +62,15 @@ export const MyCalendar = () => {
     }),
     [])
 
+
+
   const { formats, views,messages } = useMemo(
     () => ({
       defaultDate: new Date(2015, 3, 13),
       formats: {
-        dayFormat: (date, culture, localizer) => {
-          return localizer.format(date, 'dd DD/MM', culture);
-        },
+        dayFormat: locilizeDates,
       },
-      views: [Views.WEEK, Views.DAY],
+      views: [Views.WEEK, Views.DAY, Views.AGENDA],
       messages: {
         week: 'Неделя',
         day: 'День',
@@ -75,6 +78,7 @@ export const MyCalendar = () => {
         previous: 'Назад',
         next: 'Вперед',
         today: 'Сегодня',
+        agenda: 'План',
       }
     }),
     []

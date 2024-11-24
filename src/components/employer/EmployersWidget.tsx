@@ -1,0 +1,50 @@
+import { useAppDispatch } from '@/model/store.ts';
+import { useLocalStorage } from 'usehooks-ts';
+import { Employer } from '@/types.ts';
+import { useSelector } from 'react-redux';
+import { employersSelectors, employersSlice } from '@/model/employers.ts';
+import { selectValueEditingEmployerId, selectValueIsAdding } from '@/model/values.ts';
+import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
+import EmployerCard from '@/components/employer/EmployerCard.tsx';
+import { useEffect } from 'react';
+
+export const EmployersWidget = () => {
+
+  const dispatch = useAppDispatch();
+
+  const [localStorageEmployers, , removeLocalStorageEmployers] =
+    useLocalStorage<Employer[]>('jobSearchEmployers', []);
+
+  useEffect(() => {
+    if (localStorageEmployers.length) {
+      dispatch(employersSlice.actions.setEmployers(localStorageEmployers));
+      removeLocalStorageEmployers();
+    }
+  }, [localStorageEmployers]);
+
+  const employers: Employer[] = useSelector(employersSelectors.selectAll);
+
+  const isAdding = useSelector(selectValueIsAdding);
+  const editingCardId = useSelector(selectValueEditingEmployerId);
+  return (
+    <>
+    {isAdding && <EditEmployerCard />}
+
+
+  <div className="space-y-4">
+    {employers.map((employer) => {
+      if (editingCardId === employer.id) {
+        return <EditEmployerCard />;
+      }
+      return <EmployerCard key={employer.id} employer={employer} />;
+    })}
+
+    {employers.length === 0 && !isAdding && (
+      <div className="py-12 text-center">
+        <p className="text-gray-500">Нет добавленных работодателей</p>
+      </div>
+    )}
+  </div>
+    </>
+  );
+};
