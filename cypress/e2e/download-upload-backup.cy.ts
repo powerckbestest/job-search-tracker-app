@@ -59,6 +59,7 @@ describe('Download and upload backup', () => {
       status: 'Принят',
     });
 
+    cy.findByTestId('settings').click();
     cy.findByTestId('downloadBackup').click();
     cy.verifyDownload('job-search-tracker-backup.json', { contains: true });
   });

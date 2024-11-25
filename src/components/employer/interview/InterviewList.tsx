@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { CalendarDays, Plus, Edit2, Save, X } from 'lucide-react';
-import { Interview } from '../types';
-import { valuesSlice } from '../model/values.ts';
+import { Interview } from '@/types.ts';
+import { valuesSlice } from '@/model/values.ts';
 import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../model/store.ts';
-import { employersSelectors, employersSlice } from '../model/employers.ts';
+import { RootState, useAppDispatch } from '@/model/store.ts';
+import { employersSelectors, employersSlice } from '@/model/employers.ts';
+import { Button } from '@/components/ui/button.tsx';
+import { Badge } from '@/components/ui/badge.tsx';
 
 interface Props {
   interviews: Interview[];
@@ -85,13 +87,13 @@ export default function InterviewList({ interviews, employerId }: Props) {
   const getStatusColor = (status: Interview['status']) => {
     switch (status) {
       case 'completed':
-        return 'text-yellow-600 bg-yellow-50';
+        return 'text-yellow-600 bg-yellow-50 border-yellow-500 hover:border-yellow-600 hover:bg-yellow-50';
       case 'accepted':
-        return 'text-green-600 bg-green-50';
+        return 'text-green-600 bg-green-50 border-green-500 hover:border-green-600 hover:bg-green-50';
       case 'rejected':
-        return 'text-red-600 bg-red-50';
+        return 'text-red-600 bg-red-50 border-red-500 hover:border-red-600 hover:bg-red-50';
       default:
-        return 'text-blue-600 bg-blue-50';
+        return 'text-blue-600 bg-blue-50 border-blue-500 hover:border-blue-600 hover:bg-blue-50';
     }
   };
 
@@ -112,14 +114,15 @@ export default function InterviewList({ interviews, employerId }: Props) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h4 className="font-medium text-gray-700">Собеседования</h4>
-        <button
+        <Button
+          variant="ghost"
           data-testid="addInterview"
           onClick={() => setIsInterviewAdding(true)}
-          className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
+          className="text-sm"
         >
           <Plus size={16} />
           Добавить
-        </button>
+        </Button>
       </div>
 
       {isInterviewAdding && (
@@ -171,21 +174,24 @@ export default function InterviewList({ interviews, employerId }: Props) {
             </select>
           </div>
           <div className="flex justify-end gap-2">
-            <button
+            <Button
+              variant="ghost"
               data-testid="cancelInterviewEdit"
               type="button"
               onClick={() => setIsInterviewAdding(false)}
-              className="rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-100"
+              className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-200"
             >
+              <X size={14} />
               Отмена
-            </button>
-            <button
+            </Button>
+            <Button
               data-testid="saveInterviewEdit"
               type="submit"
-              className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
+              className="flex items-center gap-1 rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
             >
+              <Save size={14} />
               Сохранить
-            </button>
+            </Button>
           </div>
         </form>
       )}
@@ -238,22 +244,23 @@ export default function InterviewList({ interviews, employerId }: Props) {
                   placeholder="Заметки о собеседовании, результаты, впечатления..."
                 />
                 <div className="flex justify-end gap-2">
-                  <button
+                  <Button
+                    variant="ghost"
                     data-testid="cancelInterviewEdit"
                     onClick={handleCancelEdit}
                     className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-200"
                   >
                     <X size={14} />
                     Отмена
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     data-testid="saveInterviewEdit"
                     onClick={handleSaveEdit}
                     className="flex items-center gap-1 rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
                   >
                     <Save size={14} />
                     Сохранить
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
@@ -266,13 +273,13 @@ export default function InterviewList({ interviews, employerId }: Props) {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span
+                    <Badge
                       className={`rounded-full px-2 py-1 text-xs ${getStatusColor(
                         interview.status
                       )}`}
                     >
                       {getStatusText(interview.status)}
-                    </span>
+                    </Badge>
                     <button
                       data-testid="editInterview"
                       onClick={() => handleEdit(interview)}
