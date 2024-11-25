@@ -3,13 +3,16 @@ import { useLocalStorage } from 'usehooks-ts';
 import { Employer } from '@/types.ts';
 import { useSelector } from 'react-redux';
 import { employersSelectors, employersSlice } from '@/model/employers.ts';
-import { selectValueEditingEmployerId, selectValueIsAdding } from '@/model/values.ts';
+import {
+  selectValueEditingEmployerId,
+  selectValueIsAdding,
+} from '@/model/values.ts';
 import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
 import EmployerCard from '@/components/employer/EmployerCard.tsx';
 import { useEffect } from 'react';
+import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
 
 export const EmployersWidget = () => {
-
   const dispatch = useAppDispatch();
 
   const [localStorageEmployers, , removeLocalStorageEmployers] =
@@ -28,23 +31,26 @@ export const EmployersWidget = () => {
   const editingCardId = useSelector(selectValueEditingEmployerId);
   return (
     <>
-    {isAdding && <EditEmployerCard />}
-
-
-  <div className="space-y-4">
-    {employers.map((employer) => {
-      if (editingCardId === employer.id) {
-        return <EditEmployerCard />;
-      }
-      return <EmployerCard key={employer.id} employer={employer} />;
-    })}
-
-    {employers.length === 0 && !isAdding && (
-      <div className="py-12 text-center">
-        <p className="text-gray-500">Нет добавленных работодателей</p>
+      <div className="full-width mb-4 flex justify-end">
+        <AddEmployer />
       </div>
-    )}
-  </div>
+
+      {isAdding && <EditEmployerCard />}
+
+      <div className="space-y-4">
+        {employers.map((employer) => {
+          if (editingCardId === employer.id) {
+            return <EditEmployerCard />;
+          }
+          return <EmployerCard key={employer.id} employer={employer} />;
+        })}
+
+        {employers.length === 0 && !isAdding && (
+          <div className="py-12 text-center">
+            <p className="text-gray-500">Нет добавленных работодателей</p>
+          </div>
+        )}
+      </div>
     </>
   );
 };

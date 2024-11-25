@@ -1,5 +1,4 @@
 import { Settings } from '@/components/settings/Settings.tsx';
-import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
 import { AppName } from '@/components/layout/AppName.tsx';
 
 export const Toolbar = () => {
@@ -8,7 +7,6 @@ export const Toolbar = () => {
       <div className="flex items-center justify-between">
         <AppName />
         <Settings />
-        <AddEmployer />
       </div>
     </header>
   );
