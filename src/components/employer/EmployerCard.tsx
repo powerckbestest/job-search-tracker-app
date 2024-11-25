@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Building2,
+  CalendarClock,
   ChevronDown,
   ChevronUp,
   Mail,
@@ -16,6 +17,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible.tsx';
+import {
+  CalendarInterview,
+  selectCalendarInterviews,
+} from '@/model/employers.ts';
+import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 
 interface Props {
   employer: Employer;
@@ -23,6 +30,13 @@ interface Props {
 
 export default function EmployerCard({ employer }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const lastInterview =
+    useSelector(selectCalendarInterviews)
+      ?.filter((interview) => interview.companyName === employer.companyName)
+      ?.sort((a: CalendarInterview, b: CalendarInterview) => {
+        return dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1;
+      })
+      ?.at(0) || null;
 
   return (
     <Collapsible
@@ -56,6 +70,16 @@ export default function EmployerCard({ employer }: Props) {
               <Phone className="text-gray-500" size={16} />
               <span className="text-gray-700">{employer.contacts}</span>
             </div>
+
+            {lastInterview && (
+              <div className="flex items-center gap-2">
+                <CalendarClock size={16} className="text-gray-500" />
+                <span className="text-gray-700">Последнее событие</span>
+                <span className="text-gray-700">
+                  {dayjs(lastInterview.date).locale('ru').format('L')}
+                </span>
+              </div>
+            )}
           </div>
         </div>
         <CollapsibleTrigger
