@@ -16,6 +16,7 @@ export const EditCurrentEmployer: FC<EditCurrentEmployerProps> = ({
     <button
       data-testid="editEmployer"
       onClick={() => {
+        dispatch(valuesSlice.actions.setIsAdding(false));
         dispatch(valuesSlice.actions.setEditingEmployerId(employerId));
       }}
       className="rounded-md px-3 py-1 text-sm text-blue-600 transition-colors hover:bg-blue-50"
