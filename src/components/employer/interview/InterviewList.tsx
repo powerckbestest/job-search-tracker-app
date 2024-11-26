@@ -159,7 +159,6 @@ export default function InterviewList({ interviews, employerId }: Props) {
               data-testid="selectInterviewStatus"
               value={newInterview.status}
               onChange={(e) => {
-                console.log('newInterview', newInterview);
                 setNewInterview({
                   ...newInterview,
                   status: e.target.value as Interview['status'],

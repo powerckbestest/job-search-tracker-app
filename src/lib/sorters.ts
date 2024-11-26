@@ -20,8 +20,10 @@ export const sortByLastInterviewDate = (
     return arr;
   }
 
+  const arrToSort = [...arr];
+
   if (sortState === 'asc') {
-    return arr.sort((a, b) => {
+    return arrToSort.sort((a, b) => {
       const aLastInterview = getLastInterviewFromEmployer(a);
       const bLastInterview = getLastInterviewFromEmployer(b);
 
@@ -33,7 +35,7 @@ export const sortByLastInterviewDate = (
   }
 
   if (sortState === 'desc') {
-    return arr.sort((a, b) => {
+    return arrToSort.sort((a, b) => {
       const aLastInterview = getLastInterviewFromEmployer(a);
       const bLastInterview = getLastInterviewFromEmployer(b);
       return dateSorterAsc(
