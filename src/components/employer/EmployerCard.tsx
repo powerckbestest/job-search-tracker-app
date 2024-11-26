@@ -9,20 +9,18 @@ import {
   User,
 } from 'lucide-react';
 import { Employer } from '@/types.ts';
-import InterviewList from './interview/InterviewList.tsx';
-import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
-import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
+import InterviewList from '@/components/employer/interview/InterviewList.tsx';
+import { EditCurrentEmployer } from '@/components/employer/EditCurrentEmployer.tsx';
+import { DeleteCurrentEmployer } from '@/components/employer/DeleteCurrentEmployer.tsx';
 import { Collapsible } from '@radix-ui/react-collapsible';
 import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible.tsx';
-import {
-  CalendarInterview,
-  selectCalendarInterviews,
-} from '@/model/employers.ts';
+import { selectInterviewsByEmployerId } from '@/model/employers.ts';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
+import { dateSorterDesc } from '@/lib/sorters.ts';
 
 interface Props {
   employer: Employer;
@@ -31,11 +29,8 @@ interface Props {
 export default function EmployerCard({ employer }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const lastInterview =
-    useSelector(selectCalendarInterviews)
-      ?.filter((interview) => interview.companyName === employer.companyName)
-      ?.sort((a: CalendarInterview, b: CalendarInterview) => {
-        return dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1;
-      })
+    useSelector(selectInterviewsByEmployerId(employer.id))
+      ?.sort((a, b) => dateSorterDesc(new Date(a.date), new Date(b.date)))
       ?.at(0) || null;
 
   return (

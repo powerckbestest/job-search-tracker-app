@@ -11,6 +11,7 @@ import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
 import EmployerCard from '@/components/employer/EmployerCard.tsx';
 import { useEffect } from 'react';
 import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
+import { SortButton } from '@/components/employer/SortButton.tsx';
 
 export const EmployersWidget = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +32,12 @@ export const EmployersWidget = () => {
   const editingCardId = useSelector(selectValueEditingEmployerId);
   return (
     <>
-      <div className="full-width mb-4 flex justify-end">
+      <div className="full-width mb-4 flex justify-end gap-2">
+        <SortButton
+          name="Last interview date"
+          filterName="lastInterviewDate"
+          initialState="none"
+        />
         <AddEmployer />
       </div>
 
