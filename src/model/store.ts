@@ -15,11 +15,22 @@ const migrations = {
   0: (state: any) => {
     return { ...state };
   },
+  1: (state: any) => {
+    return {
+      ...state,
+      values: {
+        ...state.values,
+        sorters: {
+          lastInterviewDate: 'none',
+        },
+      },
+    };
+  },
 };
 
 const persistConfig = {
   key: 'job-search-tracker-app-state',
-  version: 0,
+  version: 1,
   storage,
   migrate: createMigrate(migrations, { debug: false }),
 };

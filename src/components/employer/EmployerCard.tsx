@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Building2,
+  CalendarClock,
   ChevronDown,
   ChevronUp,
   Mail,
@@ -8,14 +9,18 @@ import {
   User,
 } from 'lucide-react';
 import { Employer } from '@/types.ts';
-import InterviewList from './interview/InterviewList.tsx';
-import { EditCurrentEmployer } from './EditCurrentEmployer.tsx';
-import { DeleteCurrentEmployer } from './DeleteCurrentEmployer.tsx';
+import InterviewList from '@/components/employer/interview/InterviewList.tsx';
+import { EditCurrentEmployer } from '@/components/employer/EditCurrentEmployer.tsx';
+import { DeleteCurrentEmployer } from '@/components/employer/DeleteCurrentEmployer.tsx';
 import { Collapsible } from '@radix-ui/react-collapsible';
 import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible.tsx';
+import { selectInterviewsByEmployerId } from '@/model/employers.ts';
+import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+import { dateSorterDesc } from '@/lib/sorters.ts';
 
 interface Props {
   employer: Employer;
@@ -23,6 +28,10 @@ interface Props {
 
 export default function EmployerCard({ employer }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const lastInterview =
+    useSelector(selectInterviewsByEmployerId(employer.id))
+      ?.sort((a, b) => dateSorterDesc(new Date(a.date), new Date(b.date)))
+      ?.at(0) || null;
 
   return (
     <Collapsible
@@ -56,6 +65,16 @@ export default function EmployerCard({ employer }: Props) {
               <Phone className="text-gray-500" size={16} />
               <span className="text-gray-700">{employer.contacts}</span>
             </div>
+
+            {lastInterview && (
+              <div className="flex items-center gap-2">
+                <CalendarClock size={16} className="text-gray-500" />
+                <span className="text-gray-700">Последнее событие</span>
+                <span className="text-gray-700">
+                  {dayjs(lastInterview.date).locale('ru').format('L')}
+                </span>
+              </div>
+            )}
           </div>
         </div>
         <CollapsibleTrigger

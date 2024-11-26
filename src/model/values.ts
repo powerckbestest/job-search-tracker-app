@@ -1,9 +1,13 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store.ts';
 
+export type sortStates = 'none' | 'asc' | 'desc';
+export type sortName = 'lastInterviewDate';
+
 type Values = {
   editingEmployerId: string | null;
   editingEmployerInterviewId: string | null;
+  sorters: Record<sortName, sortStates>;
   isAdding: boolean;
 };
 
@@ -11,6 +15,9 @@ const initialValues: Values = {
   editingEmployerId: null,
   editingEmployerInterviewId: null,
   isAdding: false,
+  sorters: {
+    lastInterviewDate: 'none',
+  },
 };
 
 export const valuesSlice = createSlice({
@@ -26,6 +33,10 @@ export const valuesSlice = createSlice({
     setIsAdding: (state, action) => {
       state.isAdding = action.payload;
     },
+    setSortStateInSorters: (state, action) => {
+      state.sorters[action.payload.filterName as sortName] =
+        action.payload.filterState;
+    },
   },
 });
 
@@ -37,4 +48,9 @@ export const selectValueIsAdding = createSelector(
 export const selectValueEditingEmployerId = createSelector(
   valuesState,
   (s) => s.editingEmployerId || ''
+);
+
+export const selectValueSortState = createSelector(
+  valuesState,
+  (s) => s.sorters
 );
