@@ -17,10 +17,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible.tsx';
-import { selectInterviewsByEmployerId } from '@/model/employers.ts';
 import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
-import { dateSorterDesc } from '@/lib/sorters.ts';
+import { getLastInterviewFromEmployer } from '@/lib/utils.ts';
 
 interface Props {
   employer: Employer;
@@ -28,10 +26,7 @@ interface Props {
 
 export default function EmployerCard({ employer }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const lastInterview =
-    useSelector(selectInterviewsByEmployerId(employer.id))
-      ?.sort((a, b) => dateSorterDesc(new Date(a.date), new Date(b.date)))
-      ?.at(0) || null;
+  const lastInterview = getLastInterviewFromEmployer(employer);
 
   return (
     <Collapsible
