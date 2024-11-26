@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
 import { sortStates } from '@/model/values.ts';
 import { Employer } from '@/types.ts';
+import { getLastInterviewFromEmployer } from '@/lib/utils.ts';
 
 export const dateSorterAsc = (a: Date, b: Date) =>
   dayjs(a).isAfter(dayjs(b)) ? 1 : -1;
 export const dateSorterDesc = (a: Date, b: Date) =>
-  dayjs(a).isBefore(dayjs(b)) ? 1 : -1;
+  dayjs(a).isAfter(dayjs(b)) ? -1 : 1;
 
 export const sortByLastInterviewDate = (
   arr: Employer[],
@@ -15,20 +16,15 @@ export const sortByLastInterviewDate = (
     return arr;
   }
 
+  if (arr.length < 2) {
+    return arr;
+  }
+
   if (sortState === 'asc') {
     return arr.sort((a, b) => {
-      const aLastInterview =
-        a.interviews
-          .sort((a, b) =>
-            dateSorterDesc(new Date(a?.date || ''), new Date(b?.date || ''))
-          )
-          .at(0) || null;
-      const bLastInterview =
-        b.interviews
-          .sort((a, b) =>
-            dateSorterDesc(new Date(a?.date || ''), new Date(b?.date || ''))
-          )
-          .at(0) || null;
+      const aLastInterview = getLastInterviewFromEmployer(a);
+      const bLastInterview = getLastInterviewFromEmployer(b);
+
       return dateSorterDesc(
         new Date(aLastInterview?.date || ''),
         new Date(bLastInterview?.date || '')
@@ -38,18 +34,8 @@ export const sortByLastInterviewDate = (
 
   if (sortState === 'desc') {
     return arr.sort((a, b) => {
-      const aLastInterview =
-        a.interviews
-          .sort((a, b) =>
-            dateSorterDesc(new Date(a?.date || ''), new Date(b?.date || ''))
-          )
-          .at(0) || null;
-      const bLastInterview =
-        b.interviews
-          .sort((a, b) =>
-            dateSorterDesc(new Date(a?.date || ''), new Date(b?.date || ''))
-          )
-          .at(0) || null;
+      const aLastInterview = getLastInterviewFromEmployer(a);
+      const bLastInterview = getLastInterviewFromEmployer(b);
       return dateSorterAsc(
         new Date(aLastInterview?.date || ''),
         new Date(bLastInterview?.date || '')
