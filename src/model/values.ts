@@ -49,3 +49,8 @@ export const selectValueEditingEmployerId = createSelector(
   valuesState,
   (s) => s.editingEmployerId || ''
 );
+
+export const selectValueSortState = createSelector(
+  valuesState,
+  (s) => s.sorters
+);

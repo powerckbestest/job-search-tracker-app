@@ -6,18 +6,24 @@ import { employersSelectors, employersSlice } from '@/model/employers.ts';
 import {
   selectValueEditingEmployerId,
   selectValueIsAdding,
+  selectValueSortState,
 } from '@/model/values.ts';
 import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
 import EmployerCard from '@/components/employer/EmployerCard.tsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
 import { SortButton } from '@/components/employer/SortButton.tsx';
+import { chain } from '@/lib/utils.ts';
+import { sortByLastInterviewDate } from '@/lib/sorters.ts';
 
 export const EmployersWidget = () => {
   const dispatch = useAppDispatch();
 
   const [localStorageEmployers, , removeLocalStorageEmployers] =
     useLocalStorage<Employer[]>('jobSearchEmployers', []);
+
+  const [employers, setEmployers] = useState<Employer[]>([]);
+  const sortState = useSelector(selectValueSortState);
 
   useEffect(() => {
     if (localStorageEmployers.length) {
@@ -26,7 +32,15 @@ export const EmployersWidget = () => {
     }
   }, [localStorageEmployers]);
 
-  const employers: Employer[] = useSelector(employersSelectors.selectAll);
+  const chainedEmployers = chain<Employer>(
+    useSelector(employersSelectors.selectAll) || []
+  ).apply((arr: Employer[]) =>
+    sortByLastInterviewDate(arr, sortState.lastInterviewDate)
+  );
+
+  useEffect(() => {
+    setEmployers(chainedEmployers.value);
+  }, [chainedEmployers]);
 
   const isAdding = useSelector(selectValueIsAdding);
   const editingCardId = useSelector(selectValueEditingEmployerId);
