@@ -23,20 +23,6 @@ describe('Sorting', () => {
     });
 
     cy.createEmployer({
-      companyName: 'Мумми-троль ОAО',
-      description: 'Семейный бизнес',
-      hrName: 'Мумми-мама',
-      contacts: 'test@test.ru',
-    });
-
-    cy.createInterview({
-      companyName: 'Мумми-троль ОAО',
-      date: '2020-05-11T10:00:00',
-      description: 'Первая встреча с муми',
-      status: 'Завершено',
-    });
-
-    cy.createEmployer({
       companyName: 'СберКо',
       description: 'Финтех',
       hrName: 'Maша',
@@ -66,6 +52,20 @@ describe('Sorting', () => {
       description: 'Знакомство c коммандой и оффер',
       status: 'Принят',
     });
+
+    cy.createEmployer({
+      companyName: 'Мумми-троль ОAО',
+      description: 'Семейный бизнес',
+      hrName: 'Мумми-мама',
+      contacts: 'test@test.ru',
+    });
+
+    cy.createInterview({
+      companyName: 'Мумми-троль ОAО',
+      date: '2021-05-11T10:00:00',
+      description: 'Первая встреча с муми',
+      status: 'Завершено',
+    });
   });
 
   it('should sort by last interview date', () => {
@@ -75,5 +75,24 @@ describe('Sorting', () => {
       'aria-label',
       'Ascending order'
     );
+    cy.findAllByTestId('employerCard').first().contains('СберКо');
+  });
+
+  it('should sort by first interview date', () => {
+    cy.findByTestId('sortButton-lastInterviewDate').click();
+    cy.findByTestId('sortButton-lastInterviewDate').click();
+    cy.findByTestId('sortButton-lastInterviewDate').should(
+      'have.attr',
+      'aria-label',
+      'Descending order'
+    );
+    cy.findAllByTestId('employerCard').first().contains('Рога и копыта ООО');
+  });
+
+  it('should sort by adding employer date', () => {
+    cy.findByTestId('sortButton-lastInterviewDate').click();
+    cy.findByTestId('sortButton-lastInterviewDate').click();
+    cy.findByTestId('sortButton-lastInterviewDate').click();
+    cy.findAllByTestId('employerCard').first().contains('Мумми-троль ОAО');
   });
 });
