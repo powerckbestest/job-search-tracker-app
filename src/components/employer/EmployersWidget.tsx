@@ -48,7 +48,7 @@ export const EmployersWidget = () => {
   const editingCardId = useSelector(selectValueEditingEmployerId);
   return (
     <>
-      <div className="full-width mb-4 flex justify-end gap-2">
+      <div className="full-width mb-4 flex flex-wrap justify-end gap-2">
         <SortButton
           name={t('lastInterviewDate')}
           filterName="lastInterviewDate"

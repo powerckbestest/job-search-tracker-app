@@ -67,11 +67,11 @@ export const SortButton: FC<SortByLastInterviewDateProps> = ({
     <Button
       onClick={cycleFilterState}
       data-testid={`sortButton-${filterName}`}
-      className={`flex items-center justify-between transition-all duration-300`}
+      className={`flex-1 sm:flex-none`}
       aria-label={tooltip}
     >
       {icon}
-      <span className="flex-grow text-left">{name}</span>
+      <span>{name}</span>
     </Button>
   );
 };

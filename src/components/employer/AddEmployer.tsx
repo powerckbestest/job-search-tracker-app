@@ -11,11 +11,13 @@ export const AddEmployer = () => {
     dispatch(valuesSlice.actions.setIsAdding(isAdding));
   };
   return (
-    <div>
-      <Button data-testid="addEmployer" onClick={() => setIsAdding(true)}>
-        <PlusCircle size={20} />
-        {t('addEmployer')}
-      </Button>
-    </div>
+    <Button
+      data-testid="addEmployer"
+      onClick={() => setIsAdding(true)}
+      className={`flex-1 sm:flex-none`}
+    >
+      <PlusCircle size={20} />
+      {t('addEmployer')}
+    </Button>
   );
 };
