@@ -15,9 +15,11 @@ import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
 import { SortButton } from '@/components/employer/SortButton.tsx';
 import { chain } from '@/lib/utils.ts';
 import { sortByLastInterviewDate } from '@/lib/sorters.ts';
+import { useTranslation } from 'react-i18next';
 
 export const EmployersWidget = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [localStorageEmployers, , removeLocalStorageEmployers] =
     useLocalStorage<Employer[]>('jobSearchEmployers', []);
@@ -48,7 +50,7 @@ export const EmployersWidget = () => {
     <>
       <div className="full-width mb-4 flex justify-end gap-2">
         <SortButton
-          name="Last interview date"
+          name={t('lastInterviewDate')}
           filterName="lastInterviewDate"
           initialState="none"
         />
@@ -67,7 +69,7 @@ export const EmployersWidget = () => {
 
         {employers.length === 0 && !isAdding && (
           <div className="py-12 text-center">
-            <p className="text-gray-500">Нет добавленных работодателей</p>
+            <p className="text-gray-500">{t('noEmployers')}</p>
           </div>
         )}
       </div>
