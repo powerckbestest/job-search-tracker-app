@@ -58,6 +58,7 @@ export const LanguageSelector = () => {
                 : ''
             } `}
             onClick={() => changeLanguage(language.code)}
+            data-testid={`language-selector-${language.code}`}
           >
             <span>{language.name}</span>
             {currentLanguage === language.code && (

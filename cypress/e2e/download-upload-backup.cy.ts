@@ -3,10 +3,6 @@ describe('Download and upload backup', () => {
     cy.visit('http://localhost:5173');
   });
 
-  after(() => {
-    cy.clearDownloads();
-  });
-
   it('should download and upload backup', () => {
     cy.createEmployer({
       companyName: 'Рога и копыта ООО',
@@ -62,5 +58,6 @@ describe('Download and upload backup', () => {
     cy.findByTestId('settings').click();
     cy.findByTestId('downloadBackup').click();
     cy.verifyDownload('job-search-tracker-backup.json', { contains: true });
+    cy.clearDownloads();
   });
 });
