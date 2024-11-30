@@ -8,15 +8,17 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { useTranslation } from 'react-i18next';
 
 export const Settings = () => {
+  const { t } = useTranslation();
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button data-testid="settings">
             <SettingsIcon />
-            Настройки
+            {t('settings')}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48">

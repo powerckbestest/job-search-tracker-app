@@ -1,12 +1,14 @@
 import { Toolbar } from '@/components/layout/Toolbar.tsx';
 import { MyCalendar } from './components/calendar/Calendar.tsx';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs.tsx';
 import { EmployersWidget } from '@/components/employer/EmployersWidget.tsx';
 
-
-
 function App() {
-
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="mx-auto max-w-4xl p-6">
@@ -18,13 +20,12 @@ function App() {
             <TabsTrigger value="calendar">Calendar</TabsTrigger>
           </TabsList>
           <TabsContent value="employers">
-            <EmployersWidget/>
+            <EmployersWidget />
           </TabsContent>
           <TabsContent value="calendar">
             <MyCalendar />
           </TabsContent>
         </Tabs>
-
       </div>
     </div>
   );
