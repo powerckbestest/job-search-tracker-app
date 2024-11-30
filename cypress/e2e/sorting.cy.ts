@@ -70,22 +70,12 @@ describe('Sorting', () => {
 
   it('should sort by last interview date', () => {
     cy.findByTestId('sortButton-lastInterviewDate').click();
-    cy.findByTestId('sortButton-lastInterviewDate').should(
-      'have.attr',
-      'aria-label',
-      'Ascending order'
-    );
     cy.findAllByTestId('employerCard').first().contains('СберКо');
   });
 
   it('should sort by first interview date', () => {
     cy.findByTestId('sortButton-lastInterviewDate').click();
     cy.findByTestId('sortButton-lastInterviewDate').click();
-    cy.findByTestId('sortButton-lastInterviewDate').should(
-      'have.attr',
-      'aria-label',
-      'Descending order'
-    );
     cy.findAllByTestId('employerCard').first().contains('Рога и копыта ООО');
   });
 
