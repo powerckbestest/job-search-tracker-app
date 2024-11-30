@@ -2,8 +2,10 @@ import { HardDriveDownload } from 'lucide-react';
 import { persistor } from '@/model/store.ts';
 
 import { Button } from '@/components/ui/button.tsx';
+import { useTranslation } from 'react-i18next';
 
 export const DownloadBackup = () => {
+  const { t } = useTranslation();
   const downloadBackup = () => {
     persistor.pause();
     const backupData =
@@ -25,7 +27,7 @@ export const DownloadBackup = () => {
       onClick={downloadBackup}
     >
       <HardDriveDownload />
-      Download backup
+      {t('downloadBackup')}
     </Button>
   );
 };

@@ -23,5 +23,14 @@
   "asc": "Ascending order",
   "desc": "Descending order",
   "noFilter": "No filter",
-  "appName": "Job search tracker"
+  "appName": "Job search tracker",
+  "downloadBackup": "Download backup",
+  "uploadBackup": "Upload backup",
+  "week": "Week",
+  "day": "Day",
+  "month": "Month",
+  "previous": "Previous",
+  "next": "Next",
+  "today": "Today",
+  "agenda": "Agenda"
 }

@@ -1,8 +1,10 @@
 import { HardDriveUpload } from 'lucide-react';
 import { persistor } from '@/model/store.ts';
 import { Button } from '@/components/ui/button.tsx';
+import { useTranslation } from 'react-i18next';
 
 export const UploadBackup = () => {
+  const { t } = useTranslation();
   const uploadBackup = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -35,7 +37,7 @@ export const UploadBackup = () => {
     <div>
       <Button variant="ghost" aria-label="Upload backup" onClick={uploadBackup}>
         <HardDriveUpload />
-        Upload backup
+        {t('uploadBackup')}
       </Button>
     </div>
   );
