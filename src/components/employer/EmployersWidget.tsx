@@ -6,15 +6,17 @@ import { employersSelectors, employersSlice } from '@/model/employers.ts';
 import {
   selectValueEditingEmployerId,
   selectValueIsAdding,
+  selectValueSearchText,
   selectValueSortState,
 } from '@/model/values.ts';
 import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
 import EmployerCard from '@/components/employer/EmployerCard.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
 import { SortButton } from '@/components/employer/SortButton.tsx';
 import { chain } from '@/lib/utils.ts';
 import { sortByLastInterviewDate } from '@/lib/sorters.ts';
+import { fuseFilterEmployersCurried } from '@/lib/filters.ts';
 
 export const EmployersWidget = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +25,9 @@ export const EmployersWidget = () => {
     useLocalStorage<Employer[]>('jobSearchEmployers', []);
 
   const [employers, setEmployers] = useState<Employer[]>([]);
+  const employersState = useSelector(employersSelectors.selectAll);
   const sortState = useSelector(selectValueSortState);
+  const searchState = useSelector(selectValueSearchText);
 
   useEffect(() => {
     if (localStorageEmployers.length) {
@@ -32,11 +36,17 @@ export const EmployersWidget = () => {
     }
   }, [localStorageEmployers]);
 
-  const chainedEmployers = chain<Employer>(
-    useSelector(employersSelectors.selectAll) || []
-  ).apply((arr: Employer[]) =>
-    sortByLastInterviewDate(arr, sortState.lastInterviewDate)
-  );
+  const chainedEmployers = useMemo(() => {
+    const fuseFilterEmployers = searchState
+      ? fuseFilterEmployersCurried(searchState)
+      : (arr: Employer[]): Employer[] => arr;
+
+    return chain<Employer>(employersState || [])
+      .apply((arr: Employer[]) => fuseFilterEmployers(arr))
+      .apply((arr: Employer[]) =>
+        sortByLastInterviewDate(arr, sortState.lastInterviewDate)
+      );
+  }, [sortState, searchState]);
 
   useEffect(() => {
     setEmployers(chainedEmployers.value);

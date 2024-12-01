@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, X } from 'lucide-react';
+import { Search, TextSearch, X } from 'lucide-react';
 import { Button } from '@/components/ui/button.tsx';
 import { useAppDispatch } from '@/model/store.ts';
 import { valuesSlice } from '@/model/values.ts';
@@ -13,7 +13,7 @@ export const SearchBar = () => {
   const [debouncedValue, setDebouncedValue] = useDebounceValue('', 500);
 
   useEffect(() => {
-    dispatch(valuesSlice.actions.setSearchText(debouncedValue));
+    dispatch(valuesSlice.actions.setSearchText(debouncedValue.trim()));
   }, [debouncedValue]);
 
   const clearSearch = () => {
@@ -24,17 +24,25 @@ export const SearchBar = () => {
   return (
     <div className="w-full pb-4">
       <div className="relative">
-        <Search
-          className="text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 text-blue-600"
-          size={20}
-        />
+        {!searchTerm ? (
+          <Search
+            className="text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 text-blue-600"
+            size={20}
+          />
+        ) : (
+          <TextSearch
+            className="text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 text-green-600"
+            size={20}
+          />
+        )}
         <Input
           type="text"
           placeholder=""
           value={searchTerm}
           onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setDebouncedValue(e.target.value);
+            const searchText = String(e.target.value);
+            setSearchTerm(searchText);
+            setDebouncedValue(searchText);
           }}
           className="w-full pl-10"
         />
