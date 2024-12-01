@@ -17,6 +17,7 @@ import { SortButton } from '@/components/employer/SortButton.tsx';
 import { chain } from '@/lib/utils.ts';
 import { sortByLastInterviewDate } from '@/lib/sorters.ts';
 import { fuseFilterEmployersCurried } from '@/lib/filters.ts';
+import SearchBar from '@/components/SearchBar.tsx';
 
 export const EmployersWidget = () => {
   const dispatch = useAppDispatch();
@@ -55,32 +56,35 @@ export const EmployersWidget = () => {
   const isAdding = useSelector(selectValueIsAdding);
   const editingCardId = useSelector(selectValueEditingEmployerId);
   return (
-    <>
-      <div className="full-width mb-4 flex justify-end gap-2">
-        <SortButton
-          name="Last interview date"
-          filterName="lastInterviewDate"
-          initialState="none"
-        />
-        <AddEmployer />
+    <div className="mt-4">
+      <SearchBar />
+      <div>
+        <div className="full-width mb-4 flex justify-end gap-2">
+          <SortButton
+            name="Last interview date"
+            filterName="lastInterviewDate"
+            initialState="none"
+          />
+          <AddEmployer />
+        </div>
+
+        {isAdding && <EditEmployerCard />}
+
+        <div className="space-y-4">
+          {employers.map((employer) => {
+            if (editingCardId === employer.id) {
+              return <EditEmployerCard />;
+            }
+            return <EmployerCard key={employer.id} employer={employer} />;
+          })}
+
+          {employers.length === 0 && !isAdding && (
+            <div className="py-12 text-center">
+              <p className="text-gray-500">Нет добавленных работодателей</p>
+            </div>
+          )}
+        </div>
       </div>
-
-      {isAdding && <EditEmployerCard />}
-
-      <div className="space-y-4">
-        {employers.map((employer) => {
-          if (editingCardId === employer.id) {
-            return <EditEmployerCard />;
-          }
-          return <EmployerCard key={employer.id} employer={employer} />;
-        })}
-
-        {employers.length === 0 && !isAdding && (
-          <div className="py-12 text-center">
-            <p className="text-gray-500">Нет добавленных работодателей</p>
-          </div>
-        )}
-      </div>
-    </>
+    </div>
   );
 };
