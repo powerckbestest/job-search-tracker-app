@@ -1,10 +1,9 @@
 import { Employer } from '@/types.ts';
 import Fuse from 'fuse.js';
 const fuseOptions = {
-  shouldSort: true,
-  minMatchCharLength: 3,
-  threshold: 0.65,
-  ignoreLocation: false,
+  // minMatchCharLength: 3,
+  threshold: 0.4,
+  // ignoreLocation: false,
   keys: ['companyName', 'hrName', 'description', 'interviews.notes'],
 };
 

@@ -36,6 +36,7 @@ export const SearchBar = () => {
           />
         )}
         <Input
+          data-testid="searchBarInput"
           type="text"
           placeholder=""
           value={searchTerm}
