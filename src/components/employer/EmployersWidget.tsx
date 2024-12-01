@@ -47,7 +47,7 @@ export const EmployersWidget = () => {
       .apply((arr: Employer[]) =>
         sortByLastInterviewDate(arr, sortState.lastInterviewDate)
       );
-  }, [sortState, searchState]);
+  }, [sortState, searchState, employersState]);
 
   useEffect(() => {
     setEmployers(chainedEmployers.value);
