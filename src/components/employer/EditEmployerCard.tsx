@@ -5,6 +5,7 @@ import { selectValueEditingEmployerId, valuesSlice } from '@/model/values.ts';
 import { employersSelectors, employersSlice } from '@/model/employers.ts';
 import { useSelector } from 'react-redux';
 import { Button } from '@/components/ui/button.tsx';
+import { useTranslation } from 'react-i18next';
 
 const newEmployerTemp: Employer = {
   companyName: '',
@@ -18,6 +19,7 @@ const newEmployerTemp: Employer = {
 
 export const EditEmployerCard: FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const foundEmployerId = useSelector(selectValueEditingEmployerId);
   const foundEmployerById = useSelector((state: RootState) =>
     employersSelectors.selectById(state, foundEmployerId)
@@ -59,7 +61,7 @@ export const EditEmployerCard: FC = () => {
       <form onSubmit={handleSubmitEmployer} className="space-y-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Название компании
+            {t('companyName')}
           </label>
           <input
             type="text"
@@ -77,7 +79,7 @@ export const EditEmployerCard: FC = () => {
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Описание
+            {t('description')}
           </label>
           <textarea
             data-testid="description"
@@ -94,7 +96,7 @@ export const EditEmployerCard: FC = () => {
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Имя HR
+            {t('hrName')}
           </label>
           <input
             data-testid="hrName"
@@ -108,7 +110,7 @@ export const EditEmployerCard: FC = () => {
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            Контакты
+            {t('contacts')}
           </label>
           <input
             data-testid="contacts"
@@ -121,7 +123,7 @@ export const EditEmployerCard: FC = () => {
               })
             }
             className="w-full rounded-md border px-3 py-2"
-            placeholder="Email, телефон, etc."
+            placeholder={t('contactsPlaceholder')}
           />
         </div>
         <div className="flex justify-end gap-2">
@@ -132,14 +134,14 @@ export const EditEmployerCard: FC = () => {
             onClick={handleCancelEditEmployer}
             className="rounded-md px-4 py-2 text-gray-600 hover:bg-gray-100"
           >
-            Отмена
+            {t('cancel')}
           </Button>
           <Button
             data-testid="save"
             type="submit"
             className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           >
-            Сохранить
+            {t('save')}
           </Button>
         </div>
       </form>

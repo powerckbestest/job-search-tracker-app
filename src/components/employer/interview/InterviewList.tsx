@@ -7,6 +7,7 @@ import { RootState, useAppDispatch } from '@/model/store.ts';
 import { employersSelectors, employersSlice } from '@/model/employers.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   interviews: Interview[];
@@ -21,6 +22,7 @@ const newInterviewTemp: Interview = {
 };
 
 export default function InterviewList({ interviews, employerId }: Props) {
+  const { t } = useTranslation();
   const [isInterviewAdding, setIsInterviewAdding] = useState<boolean>(false);
   const [currentInterviewId, setCurrentInterviewId] = useState<string | null>(
     null
@@ -99,20 +101,20 @@ export default function InterviewList({ interviews, employerId }: Props) {
   const getStatusText = (status: Interview['status']) => {
     switch (status) {
       case 'pending':
-        return 'В ожидании';
+        return t('pending');
       case 'completed':
-        return 'Завершено';
+        return t('completed');
       case 'accepted':
-        return 'Принят';
+        return t('accepted');
       case 'rejected':
-        return 'Отказ';
+        return t('rejected');
     }
   };
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h4 className="font-medium text-gray-700">Собеседования</h4>
+        <h4 className="font-medium text-gray-700">{t('interviews')}</h4>
         <Button
           variant="ghost"
           data-testid="addInterview"
@@ -120,7 +122,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
           className="text-sm"
         >
           <Plus size={16} />
-          Добавить
+          {t('add')}
         </Button>
       </div>
 
@@ -148,7 +150,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
               onChange={(e) =>
                 setNewInterview({ ...newInterview, notes: e.target.value })
               }
-              placeholder="Заметки о собеседовании, результаты, впечатления..."
+              placeholder={t('notesPlaceholder')}
               className="w-full rounded-md border px-3 py-2"
               rows={3}
             />
@@ -165,10 +167,10 @@ export default function InterviewList({ interviews, employerId }: Props) {
               }}
               className="w-full rounded-md border px-3 py-2"
             >
-              <option value="pending">В ожидании</option>
-              <option value="completed">Завершено</option>
-              <option value="accepted">Принят</option>
-              <option value="rejected">Отказ</option>
+              <option value="pending">{t('pending')}</option>
+              <option value="completed">{t('completed')}</option>
+              <option value="accepted">{t('accepted')}</option>
+              <option value="rejected">{t('rejected')}</option>
             </select>
           </div>
           <div className="flex justify-end gap-2">
@@ -180,7 +182,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
               className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-200"
             >
               <X size={14} />
-              Отмена
+              {t('cancel')}
             </Button>
             <Button
               data-testid="saveInterviewEdit"
@@ -188,7 +190,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
               className="flex items-center gap-1 rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
             >
               <Save size={14} />
-              Сохранить
+              {t('save')}
             </Button>
           </div>
         </form>
@@ -222,10 +224,10 @@ export default function InterviewList({ interviews, employerId }: Props) {
                     }}
                     className="rounded-md border px-3 py-2 text-sm"
                   >
-                    <option value="pending">В ожидании</option>
-                    <option value="completed">Завершено</option>
-                    <option value="accepted">Принят</option>
-                    <option value="rejected">Отказ</option>
+                    <option value="pending">{t('pending')}</option>
+                    <option value="completed">{t('completed')}</option>
+                    <option value="accepted">{t('accepted')}</option>
+                    <option value="rejected">{t('rejected')}</option>
                   </select>
                 </div>
                 <textarea
@@ -238,7 +240,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
                   }
                   className="w-full rounded-md border px-3 py-2 text-sm"
                   rows={4}
-                  placeholder="Заметки о собеседовании, результаты, впечатления..."
+                  placeholder={t('notesPlaceholder')}
                 />
                 <div className="flex justify-end gap-2">
                   <Button
@@ -248,7 +250,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
                     className="flex items-center gap-1 rounded-md px-3 py-1 text-sm text-gray-600 hover:bg-gray-200"
                   >
                     <X size={14} />
-                    Отмена
+                    {t('cancel')}
                   </Button>
                   <Button
                     data-testid="saveInterviewEdit"
@@ -256,7 +258,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
                     className="flex items-center gap-1 rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
                   >
                     <Save size={14} />
-                    Сохранить
+                    {t('save')}
                   </Button>
                 </div>
               </div>
@@ -281,7 +283,7 @@ export default function InterviewList({ interviews, employerId }: Props) {
                       data-testid="editInterview"
                       onClick={() => handleEdit(interview)}
                       className="rounded-full p-1 transition-colors hover:bg-gray-200"
-                      title="Редактировать"
+                      title={t('edit')}
                     >
                       <Edit2 size={14} className="text-gray-500" />
                     </button>

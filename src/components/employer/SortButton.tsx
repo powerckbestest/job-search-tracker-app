@@ -3,6 +3,7 @@ import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button.tsx';
 import { useAppDispatch } from '@/model/store.ts';
 import { valuesSlice } from '@/model/values.ts';
+import { useTranslation } from 'react-i18next';
 
 type filterStates = 'none' | 'asc' | 'desc';
 
@@ -24,6 +25,7 @@ export const SortButton: FC<SortByLastInterviewDateProps> = ({
 }) => {
   const [sorterState, setSorterState] = useState(initialState);
 
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const cycleFilterState = () => {
@@ -44,18 +46,18 @@ export const SortButton: FC<SortByLastInterviewDateProps> = ({
         return {
           icon: <ArrowUpIcon />,
           variant: 'default',
-          tooltip: 'Ascending order',
+          tooltip: t('asc'),
         };
       case 'desc':
         return {
           icon: <ArrowDownIcon />,
           variant: 'secondary',
-          tooltip: 'Descending order',
+          tooltip: t('desc'),
         };
       default:
         return {
           icon: <ArrowUpDownIcon />,
-          tooltip: 'No filter',
+          tooltip: t('noFilter'),
         };
     }
   };
@@ -65,11 +67,11 @@ export const SortButton: FC<SortByLastInterviewDateProps> = ({
     <Button
       onClick={cycleFilterState}
       data-testid={`sortButton-${filterName}`}
-      className={`flex items-center justify-between transition-all duration-300`}
+      className={`flex-1 sm:flex-none`}
       aria-label={tooltip}
     >
       {icon}
-      <span className="flex-grow text-left">{name}</span>
+      <span>{name}</span>
     </Button>
   );
 };
