@@ -26,11 +26,20 @@ const migrations = {
       },
     };
   },
+  2: (state: any) => {
+    return {
+      ...state,
+      values: {
+        ...state.values,
+        searchText: '',
+      },
+    };
+  },
 };
 
 const persistConfig = {
   key: 'job-search-tracker-app-state',
-  version: 1,
+  version: 2,
   storage,
   migrate: createMigrate(migrations, { debug: false }),
 };

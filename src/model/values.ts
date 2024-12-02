@@ -9,6 +9,7 @@ type Values = {
   editingEmployerInterviewId: string | null;
   sorters: Record<sortName, sortStates>;
   isAdding: boolean;
+  searchText: string;
 };
 
 const initialValues: Values = {
@@ -18,6 +19,7 @@ const initialValues: Values = {
   sorters: {
     lastInterviewDate: 'none',
   },
+  searchText: '',
 };
 
 export const valuesSlice = createSlice({
@@ -37,6 +39,12 @@ export const valuesSlice = createSlice({
       state.sorters[action.payload.filterName as sortName] =
         action.payload.filterState;
     },
+    setSearchText: (state, action) => {
+      state.searchText = action.payload;
+    },
+    resetSearchText: (state) => {
+      state.searchText = '';
+    },
   },
 });
 
@@ -53,4 +61,9 @@ export const selectValueEditingEmployerId = createSelector(
 export const selectValueSortState = createSelector(
   valuesState,
   (s) => s.sorters
+);
+
+export const selectValueSearchText = createSelector(
+  valuesState,
+  (s) => s.searchText
 );

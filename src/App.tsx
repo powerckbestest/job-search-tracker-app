@@ -8,14 +8,12 @@ import {
 } from '@/components/ui/tabs.tsx';
 import { EmployersWidget } from '@/components/employer/EmployersWidget.tsx';
 import { useTranslation } from 'react-i18next';
-
 function App() {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="mx-auto max-w-4xl p-6">
         <Toolbar />
-
         <Tabs defaultValue="employers" className="full-width">
           <TabsList>
             <TabsTrigger value="employers">{t('employers')}</TabsTrigger>

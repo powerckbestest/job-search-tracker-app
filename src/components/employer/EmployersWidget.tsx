@@ -6,15 +6,18 @@ import { employersSelectors, employersSlice } from '@/model/employers.ts';
 import {
   selectValueEditingEmployerId,
   selectValueIsAdding,
+  selectValueSearchText,
   selectValueSortState,
 } from '@/model/values.ts';
 import { EditEmployerCard } from '@/components/employer/EditEmployerCard.tsx';
 import EmployerCard from '@/components/employer/EmployerCard.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AddEmployer } from '@/components/employer/AddEmployer.tsx';
 import { SortButton } from '@/components/employer/SortButton.tsx';
 import { chain } from '@/lib/utils.ts';
 import { sortByLastInterviewDate } from '@/lib/sorters.ts';
+import { fuseFilterEmployersCurried } from '@/lib/filters.ts';
+import SearchBar from '@/components/SearchBar.tsx';
 import { useTranslation } from 'react-i18next';
 
 export const EmployersWidget = () => {
@@ -25,7 +28,9 @@ export const EmployersWidget = () => {
     useLocalStorage<Employer[]>('jobSearchEmployers', []);
 
   const [employers, setEmployers] = useState<Employer[]>([]);
+  const employersState = useSelector(employersSelectors.selectAll);
   const sortState = useSelector(selectValueSortState);
+  const searchState = useSelector(selectValueSearchText);
 
   useEffect(() => {
     if (localStorageEmployers.length) {
@@ -34,11 +39,17 @@ export const EmployersWidget = () => {
     }
   }, [localStorageEmployers]);
 
-  const chainedEmployers = chain<Employer>(
-    useSelector(employersSelectors.selectAll) || []
-  ).apply((arr: Employer[]) =>
-    sortByLastInterviewDate(arr, sortState.lastInterviewDate)
-  );
+  const chainedEmployers = useMemo(() => {
+    const fuseFilterEmployers = searchState
+      ? fuseFilterEmployersCurried(searchState)
+      : (arr: Employer[]): Employer[] => arr;
+
+    return chain<Employer>(employersState || [])
+      .apply((arr: Employer[]) => fuseFilterEmployers(arr))
+      .apply((arr: Employer[]) =>
+        sortByLastInterviewDate(arr, sortState.lastInterviewDate)
+      );
+  }, [sortState, searchState, employersState]);
 
   useEffect(() => {
     setEmployers(chainedEmployers.value);
@@ -47,32 +58,35 @@ export const EmployersWidget = () => {
   const isAdding = useSelector(selectValueIsAdding);
   const editingCardId = useSelector(selectValueEditingEmployerId);
   return (
-    <>
-      <div className="full-width mb-4 flex flex-wrap justify-end gap-2">
-        <SortButton
-          name={t('lastInterviewDate')}
-          filterName="lastInterviewDate"
-          initialState="none"
-        />
-        <AddEmployer />
+    <div className="mt-4">
+      <SearchBar />
+      <div>
+        <div className="full-width mb-4 flex flex-wrap justify-end gap-2">
+          <SortButton
+            name={t('lastInterviewDate')}
+            filterName="lastInterviewDate"
+            initialState="none"
+          />
+          <AddEmployer />
+        </div>
+
+        {isAdding && <EditEmployerCard />}
+
+        <div className="space-y-4">
+          {employers.map((employer) => {
+            if (editingCardId === employer.id) {
+              return <EditEmployerCard />;
+            }
+            return <EmployerCard key={employer.id} employer={employer} />;
+          })}
+
+          {employers.length === 0 && !isAdding && (
+            <div className="py-12 text-center">
+              <p className="text-gray-500">{t('noEmployers')}</p>
+            </div>
+          )}
+        </div>
       </div>
-
-      {isAdding && <EditEmployerCard />}
-
-      <div className="space-y-4">
-        {employers.map((employer) => {
-          if (editingCardId === employer.id) {
-            return <EditEmployerCard />;
-          }
-          return <EmployerCard key={employer.id} employer={employer} />;
-        })}
-
-        {employers.length === 0 && !isAdding && (
-          <div className="py-12 text-center">
-            <p className="text-gray-500">{t('noEmployers')}</p>
-          </div>
-        )}
-      </div>
-    </>
+    </div>
   );
 };

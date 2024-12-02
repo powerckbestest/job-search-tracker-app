@@ -63,7 +63,6 @@ export default function InterviewList({ interviews, employerId }: Props) {
 
   const handleSaveEdit = () => {
     if (currentInterview) {
-      console.log('currentInterview save edit', currentInterview);
       const filteredInterviews =
         currentEmployer?.interviews?.filter(
           (interview: Interview) => interview.id !== currentInterviewId
@@ -218,7 +217,6 @@ export default function InterviewList({ interviews, employerId }: Props) {
                     data-testid="selectInterviewStatus"
                     value={currentInterview.status}
                     onChange={(e) => {
-                      console.log('currentInterview', currentInterview);
                       setCurrentInterview({
                         ...currentInterview,
                         status: e.target.value as Interview['status'],
