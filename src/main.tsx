@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import './translations/i18n';
 
 import { persistor, store } from './model/store.ts';
 import { Provider } from 'react-redux';

@@ -1,41 +1,55 @@
-import { Calendar, dayjsLocalizer, Views, Event as CalendarEvent } from 'react-big-calendar';
-import dayjs from 'dayjs'
-import 'dayjs/locale/ru'
-import timezone from 'dayjs/plugin/timezone'
+import {
+  Calendar,
+  dayjsLocalizer,
+  Views,
+  Event as CalendarEvent,
+} from 'react-big-calendar';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+import timezone from 'dayjs/plugin/timezone';
 import { useCallback, useMemo } from 'react';
 import { useAppSelector } from '@/model/store.ts';
-import { CalendarInterview, selectCalendarInterviews} from '@/model/employers.ts';
+import {
+  CalendarInterview,
+  selectCalendarInterviews,
+} from '@/model/employers.ts';
+import { useTranslation } from 'react-i18next';
 
-dayjs.extend(timezone)
-dayjs.locale('ru') // Установка русской локали
+dayjs.extend(timezone);
+dayjs.locale('ru'); // Установка русской локали
 
-const convertInterviewToEvent = (interview:CalendarInterview ): CalendarEvent => {
+const convertInterviewToEvent = (
+  interview: CalendarInterview
+): CalendarEvent => {
   return {
     start: dayjs(interview.date).toDate(),
-    end: dayjs(interview.date).add(1,'hour').toDate() ,
+    end: dayjs(interview.date).add(1, 'hour').toDate(),
     title: interview.companyName,
     resource: {
       status: interview.status,
-    }
-  }
-}
+    },
+  };
+};
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-const locilizeDates  = (date, culture, localizer) => localizer.format(date, 'dd DD/MM', culture)
+const locilizeDates = (date, culture, localizer) =>
+  localizer.format(date, 'dd DD/MM', culture);
 
-
-const djLocalizer = dayjsLocalizer(dayjs)
+const djLocalizer = dayjsLocalizer(dayjs);
 
 export const MyCalendar = () => {
+  const { t } = useTranslation();
 
-  const interviews = useAppSelector(selectCalendarInterviews)
-  const interviewsEvents = useMemo(() => interviews.map(convertInterviewToEvent), [interviews])
-
+  const interviews = useAppSelector(selectCalendarInterviews);
+  const interviewsEvents = useMemo(
+    () => interviews.map(convertInterviewToEvent),
+    [interviews]
+  );
 
   const eventPropGetter = useCallback(
-    (event:CalendarEvent) => ({
-      ...( event.resource.status == 'pending' && {
+    (event: CalendarEvent) => ({
+      ...(event.resource.status == 'pending' && {
         style: {
           backgroundColor: 'rgb(239, 246, 255)',
           color: 'rgb(37, 99, 235)',
@@ -60,11 +74,10 @@ export const MyCalendar = () => {
         },
       }),
     }),
-    [])
+    []
+  );
 
-
-
-  const { formats, views,messages } = useMemo(
+  const { formats, views, messages } = useMemo(
     () => ({
       defaultDate: new Date(2015, 3, 13),
       formats: {
@@ -72,17 +85,17 @@ export const MyCalendar = () => {
       },
       views: [Views.WEEK, Views.DAY, Views.AGENDA],
       messages: {
-        week: 'Неделя',
-        day: 'День',
-        month: 'Месяц',
-        previous: 'Назад',
-        next: 'Вперед',
-        today: 'Сегодня',
-        agenda: 'План',
-      }
+        week: t('week'),
+        day: t('day'),
+        month: t('month'),
+        previous: t('previous'),
+        next: t('next'),
+        today: t('today'),
+        agenda: t('agenda'),
+      },
     }),
     []
-  )
+  );
 
   return (
     <Calendar
