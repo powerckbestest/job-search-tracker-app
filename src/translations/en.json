@@ -32,5 +32,9 @@
   "previous": "Previous",
   "next": "Next",
   "today": "Today",
-  "agenda": "Agenda"
+  "agenda": "Agenda",
+  "common.yes": "Yes",
+  "common.no": "No",
+  "dialog.deleteEmployerConfirmation": "Are you sure you want to delete this employer? This action cannot be undone.",
+  "dialog.delete": "Delete"
 }

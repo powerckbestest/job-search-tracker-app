@@ -32,5 +32,9 @@
   "previous": "Предыдущий",
   "next": "Следующий",
   "today": "Сегодня",
-  "agenda": "План"
+  "agenda": "План",
+  "common.yes": "Да",
+  "common.no": "Нет",
+  "dialog.deleteEmployerConfirmation": "Вы уверены, что хотите удалить этого работодателя? Это действие нельзя отменить.",
+  "dialog.delete": "Удалить"
 }
