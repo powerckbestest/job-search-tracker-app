@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import { RootState, useAppDispatch } from '@/model/store.ts';
 import { employersSelectors, employersSlice } from '@/model/employers.ts';
 import { Trash2, Ban } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import {
   AlertDialog,
@@ -28,6 +29,7 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
   const employer = useSelector((state: RootState) =>
     employersSelectors.selectById(state, employerId)
   );
+  const { t } = useTranslation();
 
   return (
     <AlertDialog>
@@ -42,9 +44,9 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
       </AlertDialogTrigger>
       <AlertDialogContent className="rounded-lg border-2 border-gray-200 bg-white shadow-lg">
         <AlertDialogHeader>
-          <AlertDialogTitle>Удаление {employer?.companyName}</AlertDialogTitle>
+          <AlertDialogTitle>{t('dialog.delete')} {employer?.companyName}</AlertDialogTitle>
           <AlertDialogDescription>
-            Вы уверены, что хотите удалить этого работодателя?
+            {t('dialog.deleteEmployerConfirmation')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -56,7 +58,7 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
             className="direction-row flex items-center gap-2 rounded-md bg-blue-500 px-3 py-2 text-sm text-white transition-colors hover:bg-blue-700 hover:text-white"
           >
             <Ban />
-            Отмена
+            {t('common.no')}
           </AlertDialogCancel>
           <AlertDialogAction
             data-testid="confirm-delete"
@@ -66,7 +68,7 @@ export const DeleteCurrentEmployer: FC<DeleteCurrentEmployerProps> = ({
             }}
             className="direction-row flex items-center gap-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white transition-colors hover:bg-red-700"
           >
-            <Trash2 /> Удалить
+            <Trash2 /> {t('common.yes')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
